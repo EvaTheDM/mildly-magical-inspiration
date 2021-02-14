@@ -113,7 +113,7 @@ export const setNewPlayerOwner = async (cardId, ownerId, updateDeck = false, ope
 	const oldCards = newOwner.getFlag(defaults.MODULE,'cards');
 	const newCards = Array.isArray(oldCards) ? [ ...oldCards, cardId ] : [ cardId ];
 	
-	await newOwner.setFlag(defaults.MODULE,'cards', newCards);
+	await newOwner.setFlag(defaults.MODULE,'cards', [...new Set(newCards)]);
 	
 	if(updateDeck) {
 		await game.settings.set(defaults.MODULE, 'deck', game.settings.get(defaults.MODULE, 'deck').map(card => {

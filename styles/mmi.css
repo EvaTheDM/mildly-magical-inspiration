@@ -1,0 +1,402 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;600&display=swap');
+
+#inspiration-deck-button {
+	position: fixed;
+	bottom: 10px;
+	left: 220px;
+	height: 52px;
+	width: 39px;
+	margin: 0 2px;
+	padding: 0;
+	border: 1px solid #000;
+	border-radius: 3px;
+	text-align: center;
+}
+#inspiration-deck-button nav#context-menu {
+	text-align: left;
+}
+#inspiration-deck-button div.player-card-number {
+	position: absolute;
+	bottom: 2px;
+	right: 2px;
+	left: 2px;
+	padding: 1px 3px;
+	background-color: rgba(255, 100, 0, 0.5);
+	color: #f0f0e0;
+	text-align: center;
+	font-size: 0.7em;
+	border: 1px solid black;
+	font-weight: bold;
+	z-index: 1;
+}
+#hotbar {
+	left: 265px;
+}
+#inspiration-deck-button a {
+	display: block;
+	height: 100%;
+	width: 100%;
+	position: relative;
+}
+#inspiration-deck-button a img {
+	height: 100%;
+}
+#inspiration-deck-button a:hover img {
+	opacity: 0.75;
+}
+
+#deck-config nav.list-filters a.add {
+	max-width: 30px;
+	text-align: center;
+	padding-top: 5px;
+}
+
+#deck-config header.table-header,
+#source-config header.table-header{
+	background: rgba(0, 0, 0, 0.5);
+	padding: 5px;
+	border: 1px solid #191813;
+	color: #f0f0e0;
+	font-weight: bold;
+	text-shadow: 1px 1px #000;
+}
+
+#deck-config ul.card-list,
+#source-config ul.source-list{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	max-height: 400px;
+	overflow: hidden auto;
+	scrollbar-width: thin;
+}
+
+#deck-config li.card,
+#source-config li.source {
+	padding: 5px;
+	border-bottom: 1px solid #7a7971;
+}
+#deck-config textarea {
+	padding: 5px 3px;
+	margin: 0;
+	font-family: inherit;
+	font-size: inherit;
+	text-align: inherit;
+	line-height: 16px;
+	min-height: 26px !important;
+	border: 1px solid #7a7971;
+	overflow: hidden;
+}
+
+.card-details .form-group {
+	align-items: flex-start;
+}
+.card-details .form-group label {
+	flex: 1;
+}
+.card-details .form-group select {
+	margin-left: 4px;
+	margin-bottom: 1px;
+}
+.card-details .form-group .flexrow input {
+	flex: 0.1;
+}
+
+#gamemasterUI .window-app,
+#gamemasterUI .window-content,
+#singleUI .window-app,
+#singleUI .window-content,
+#previewUI .window-app,
+#previewUI .window-content,
+#awardUI .window-app,
+#awardUI .window-content {
+	padding: 0;
+}
+
+#gamemasterUI .tabs,
+#singleUI .tabs,
+#previewUI .tabs,
+#awardUI .tabs {
+	flex: 0 0 32px;
+	line-height: 32px;
+	font-size: 16px;
+	border-bottom: 1px solid #000;
+}
+#gamemasterUI .card-wrapper,
+#singleUI .card-wrapper,
+#previewUI .card-wrapper,
+#awardUI .card-wrapper {
+	padding: 5px;
+	align-items: center;
+}
+#gamemasterUI .card-wrapper > div.flexrow,
+#singleUI .card-wrapper > div.flexrow,
+#previewUI .card-wrapper > div.flexrow,
+#awardUI .card-wrapper > div.flexrow {
+	width: 100%;
+}
+#gamemasterUI .card-wrapper span.no-cards,
+#singleUI .card-wrapper span.no-cards,
+#previewUI .card-wrapper span.no-cards,
+#awardUI .card-wrapper span.no-cards {
+	text-align: center;
+}
+
+#gamemasterUI .card,
+#singleUI .card,
+#previewUI .card,
+#awardUI .card {
+	position: relative;
+	font-family: 'Abhaya Libre';
+	color: #C9A174;
+}
+#gamemasterUI .card-content,
+#singleUI .card-content,
+#previewUI .card-content,
+#awardUI .card-content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+#gamemasterUI .card-header,
+#gamemasterUI .card-footer,
+#singleUI .card-header,
+#singleUI .card-footer,
+#previewUI .card-header,
+#previewUI .card-footer,
+#awardUI .card-header,
+#awardUI .card-footer {
+	height: 16%;
+	align-content: center;
+	padding-bottom: 1.6%;
+	text-transform: uppercase;
+	font-size: 0.8em;
+	letter-spacing: 0.28em;
+}
+#gamemasterUI .card-footer,
+#singleUI .card-footer,
+#previewUI .card-footer,
+#awardUI .card-footer {
+	padding-top: 2.2%;
+	padding-bottom: 0;
+	height: 15%;
+	font-size: 2.5em;
+}
+#gamemasterUI .card-footer > div,
+#singleUI .card-footer > div,
+#previewUI .card-footer > div,
+#awardUI .card-footer > div {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+#gamemasterUI .card-footer > div:last-child,
+#singleUI .card-footer > div:last-child,
+#previewUI .card-footer > div:last-child,
+#awardUI .card-footer > div:last-child {
+	text-align: right;
+}
+#gamemasterUI .card-footer > div > a.disabled,
+#singleUI .card-footer > div > a.disabled,
+#previewUI .card-footer > div > a.disabled,
+#awardUI .card-footer > div > a.disabled {
+	color: #686868;
+	cursor: default;
+	opacity: 0.5;
+	text-shadow: none;
+}
+
+#gamemasterUI .card-wording,
+#singleUI .card-wording,
+#previewUI .card-wording,
+#awardUI .card-wording {
+	height: 68%;
+}
+#gamemasterUI .card-title,
+#singleUI .card-title,
+#previewUI .card-title,
+#awardUI .card-title {
+	position: relative;
+}
+#gamemasterUI .card-title span,
+#singleUI .card-title span,
+#previewUI .card-title span,
+#awardUI .card-title span {
+	position: absolute;
+	bottom: 0;
+	display: block;
+	width: 100%;
+	text-align: center;
+	font-size: 2.5em;
+	text-transform: uppercase;
+	font-weight: 600;
+	letter-spacing: 0.05em;
+}
+#gamemasterUI .card-sub,
+#singleUI .card-sub,
+#previewUI .card-sub,
+#awardUI .card-sub {
+	text-align: center;
+}
+#gamemasterUI .card-sub span,
+#singleUI .card-sub span,
+#previewUI .card-sub span,
+#awardUI .card-sub span {
+	font-size: 1.5em;
+	letter-spacing: 0.01em;
+}
+
+.select-selectWrapper,
+.select-inputWrapper {
+  position: relative;
+}
+.select-wrapper {
+  display: inline-blocK;
+}
+.select-inputWrapper {
+  display: flex;
+}
+.select-inputWrapper {
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+.select-inputWrapper > input {
+  border: 0;
+  padding: 5px;
+  border-radius: 3px;
+  height: 24px;
+  flex: 100 !important;
+}
+.select-inputWrapper > input:focus {
+  border-radius: 10px;
+  outline: 0;
+}
+.select-dropdown {
+  cursor: pointer;
+  padding-right: 10px;
+  padding-left: 10px;
+  display: block;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+ul.custom-select {
+  position: absolute;
+  top: 0;
+  border: 1px solid gray;
+  border-top: 0;
+  width: 100%;
+  display: block;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 0 0 5px 5px;
+  max-height: 150px;
+  overflow: auto;
+  z-index: 9000;
+  background: url(../../../ui/parchment.jpg) repeat;
+}
+ul.custom-select li {
+  border-top: 1px solid gray;
+  padding: 5px;
+  cursor: pointer;
+  background: white;
+  background-color: rgba(0, 0, 0, 0.05);
+  z-index: 9999;
+}
+ul.custom-select li:first-child {
+  border-top: 0;
+}
+ul.custom-select li:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/*div.dialog.player-choice {
+	width: 700px !important;
+	height: auto !important;
+}
+
+div.dialog.player-choice .switchCards {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	font-size: 3em;
+	padding-bottom: 20px;
+	padding-top: 10px;
+}
+
+div.dialog.player-choice #showPrevCard,
+div.dialog.player-choice #showNextCard {
+	margin: 0 10px;
+}
+
+div.dialog.player-choice #showPrevCard:hover,
+div.dialog.player-choice #showNextCard:hover {
+	cursor: pointer;
+	opacity: 0.5;
+}
+
+div.dialog.player-choice .disabled,
+div.dialog.player-choice .disabled:hover {
+	cursor: unset !important;
+	opacity: 0.2 !important;
+}
+
+
+.dodt.downup {
+	width: 700px !important;
+}
+
+.dodt.player-sel.error {
+	border-color: red;
+	background-color: #ebb6b2;
+	color: red;
+}*/
+/*dodt card-content*/
+/*dodt card-title
+.dodt card-sub*/
+
+
+
+/*.dodt.player-choice {
+	height: auto !important;
+}
+
+.dodt.gm .results ol.table-results label {
+	font-weight: bold;
+}
+
+.dodt.gm .results ol.table-results li.table-result {
+	border-top: 1px solid;
+}
+
+.dodt.gm .results ol.table-results li.table-result.table-header {
+	border-bottom: 1px solid;
+	border-top: 0px;
+}
+
+.dodt.gm .results ol.table-results li.table-result .result-card {
+	width: 300px;
+	flex: 0 1 auto;
+	padding-top: 5px;
+	padding-right: 5px;
+}
+
+.dodt.gm .results ol.table-results li.table-result .result-details {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.dodt.gm .results ol.table-results li.table-result .result-details .card-descr,
+.dodt.gm .results ol.table-results li.table-result .result-details .card-descr textarea {
+	flex-grow: 4;
+}
+
+.dodt.gm .results ol.table-results li.table-result .result-incl {
+	width: 50px;
+	flex: 0 1 auto;
+	justify-content: center;
+}
+
+.dodt.gm .results ol.table-results li.table-result .result-incl input[type=checkbox] {
+	align-self: center;
+}*/

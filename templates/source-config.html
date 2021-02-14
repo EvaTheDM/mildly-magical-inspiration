@@ -1,0 +1,26 @@
+<form autocomplete="off" onsubmit="event.preventDefault();">
+	<p class="notes">Configure the different decks available to you here!</p>
+	
+	<ul class="source-list">
+		<li class="source flexcol">
+			<header class="table-header flexrow">
+				<div class="flexrow" style="flex: 15;">
+					<a class="source-control" data-action="add"><i class="fas fa-plus"></i></a>
+					<label class="header-title" style="flex: 20;">Source Title</label>
+				</div>
+			</header>
+		</li>
+		{{# each sources}}
+		<li class="source flexrow" id="{{ _id }}">
+			<div></div>
+			<div style="flex: 15;">
+				<label id="{{ _id }}" class="header-title" style="flex: 20;">{{ title }}</label>
+				<input type="hidden" name="deck.{{ _id }}._id" value="{{ _id }}">
+			</div>
+			<a class="source-control" id="{{ _id }}" data-action="edit"><i class="fas fa-pencil-alt"></i></a>
+			<a class="source-control" id="{{ _id }}" data-action="delete"><i class="fas fa-times"></i></a>
+			</div>
+		</li>
+		{{/ each }}
+	</ul>
+</form>

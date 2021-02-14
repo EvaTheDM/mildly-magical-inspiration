@@ -1,0 +1,23 @@
+{
+  "name": "mmi",
+  "title": "Mildy Magical Inspiration",
+  "description": "This module lets Gamemasters create card decks and hand those cards out to their players. It can be used as an alternative way to handout inspiration to players in D&D 5th Edition.",
+  "author": "EvaTheDM",
+  "version": "1.0.0",
+  "minimumCoreVersion": "0.7.9",
+  "compatibleCoreVersion": "0.7.9",
+  "esmodules": [
+  	"mmi.js"
+  ],
+  "styles": [
+  	"styles/mmi.css"
+  ],
+  "socket": true,
+  "languages": [
+  	{
+  		"lang": "en",
+  		"name": "English",
+  		"path": "lang/en.json"
+  	}
+  ]
+}

@@ -3,7 +3,7 @@
   "title": "Mildy Magical Inspiration",
   "description": "This module lets Gamemasters create card decks and hand those cards out to their players. It can be used as an alternative way to handout inspiration to players in D&D 5th Edition.",
   "author": "EvaTheDM",
-  "version": "1.0.0",
+  "version": "This is auto replaced",
   "minimumCoreVersion": "0.7.9",
   "compatibleCoreVersion": "0.7.9",
   "esmodules": [
@@ -19,5 +19,8 @@
   		"name": "English",
   		"path": "lang/en.json"
   	}
-  ]
+  ],
+  "url": "This is auto replaced",
+  "manifest": "This is auto replaced",
+  "download": "This is auto replaced"
 }

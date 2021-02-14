@@ -2,7 +2,7 @@
 This is a module for Foundry VTT. It lets Gamemasters create card decks and hand those cards out to their players. It can be used as an alternative way to handout inspiration to players in D&amp;D 5th Edition.
 
 ## Usage
-Install the module using the manifest url https://github.com/EvaTheDM/mildly-magical-inspiration/releases/latest/download/module.json or download the zip file [here](https://github.com/EvaTheDM/mildly-magical-inspiration/releases/download/1.0.0/module.zip) and unpack it in your modules directory. When you log in as a gamemaster for the first time after activating the module you will be asked to set up the deck to be used. Afterwards the module is simple to use, allowing you to hand out cards to players at any time.
+Install the module using the manifest url https://github.com/EvaTheDM/mildly-magical-inspiration/releases/latest/download/module.json or download the zip file [here](https://github.com/EvaTheDM/mildly-magical-inspiration/releases/latest/download/module.zip) and unpack it in your modules directory. When you log in as a gamemaster for the first time after activating the module you will be asked to set up the deck to be used. Afterwards the module is simple to use, allowing you to hand out cards to players at any time.
 
 For players to use/return/pass a card a gamemaster needs to be logged into the game.
 

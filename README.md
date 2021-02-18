@@ -106,17 +106,7 @@ Please be aware that for this module to work properly everything (with the excep
 
 ## Roadmap
 
-See the [open issues](https://github.com/EvaTheDM/mildly-magical-inspiration/issues) for a list of proposed features (and known issues).
-
-Additionally these are currently planned features for the module's future:
-
-* Option to disable normal Inspiration and/or show number of cards in character sheet
-* Safety features to avoid bugs from appearing when players try to use functions while no gamemaster is logged in
-* Default Deck
-* Dedicated in built card/deck creator
-* QOL improvements
-* Basic rework to change the cards/decks/sources to a factory function approach (will only affect things under the hood)
-* Updating the guide with a how to create decks with google sheets or similar programs.
+See the [open issues](https://github.com/EvaTheDM/mildly-magical-inspiration/issues) for a list of proposed features and known bugs. For a full planned roadmap you can visit the [project board roadmap](https://github.com/EvaTheDM/mildly-magical-inspiration/projects/1).
 
 ## License
 

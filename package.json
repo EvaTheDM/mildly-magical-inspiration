@@ -1,0 +1,23 @@
+{
+  "name": "mmi",
+  "version": "2.0.0",
+  "description": "",
+  "main": "mmi.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EvaTheDM/mildly-magical-inspiration.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EvaTheDM/mildly-magical-inspiration/issues"
+  },
+  "homepage": "https://github.com/EvaTheDM/mildly-magical-inspiration#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "sass": "^1.32.8"
+  }
+}

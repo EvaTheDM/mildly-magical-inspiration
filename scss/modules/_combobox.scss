@@ -1,0 +1,122 @@
+.combobox-wrapper {
+    input.invalid {
+        // Styling
+        background-color: #fedee1;
+    	color: #9b0b0b;
+    	-webkit-transition: background 0.5s linear;
+    	-moz-transition: background 0.5s linear;
+    	-ms-transition: background 0.5s linear;
+    	-o-transition: background 0.5s linear;
+    	transition: background 0.5s linear;
+    }
+
+    .select-selectWrapper,
+    .select-inputWrapper {
+        // Positioning
+        position: relative;
+    }
+    .combobox-wrapper,
+    .select-wrapper {
+        // Positioning
+        display: inline-blocK;
+    }
+    .select-inputWrapper {
+        // Positioning
+        display: flex;
+
+        // Styling
+        border: 1px solid gray;
+        border-radius: 3px;
+
+        .select-dropdown {
+            // Positioning
+            display: block;
+
+            // Spacing
+            padding-right: 10px;
+            padding-left: 10px;
+
+            // Styling
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        & > input {
+            // Positioning & Sizing
+            height: 24px;
+            flex: 100 !important;
+
+            // Spacing
+            padding: 5px;
+
+            // Styling
+            border: 0;
+            border-radius: 3px;
+        }
+        & > input:focus {
+            // Styling
+            border-radius: 10px;
+            outline: 0;
+        }
+    }
+
+    ul.custom-select {
+        // Positioining & Sizing
+        position: absolute;
+        display: block;
+        top: 0;
+        width: 100%;
+        max-height: 150px;
+        z-index: 9000;
+
+        // Spacing
+        padding: 0;
+        margin: 0;
+
+        // Styling
+        background: url(../../../ui/parchment.jpg) repeat;
+        list-style: none;
+        border: 1px solid gray;
+        border-top: 0;
+        border-radius: 0 0 5px 5px;
+        overflow: auto;
+
+        li {
+            // Positioning & Sizing
+            z-index: 9999;
+
+            // Spacing
+            padding: 5px;
+
+            // Styling
+            background: white;
+            background-color: rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            border-top: 1px solid gray;
+
+            &:first-child {
+                // Styling
+                border-top: 0;
+            }
+            &:hover {
+                // Styling
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+        }
+    }
+
+
+    // ul.custom-select li {
+    //   border-top: 1px solid gray;
+    //   padding: 5px;
+    //   cursor: pointer;
+    //   background: white;
+    //   background-color: rgba(0, 0, 0, 0.05);
+    //   z-index: 9999;
+    // }
+    // ul.custom-select li:first-child {
+    //   border-top: 0;
+    // }
+    // ul.custom-select li:hover {
+    //   background-color: rgba(0, 0, 0, 0.1);
+    // }
+}

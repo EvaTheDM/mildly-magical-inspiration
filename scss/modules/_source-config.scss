@@ -1,0 +1,12 @@
+@use '../abstracts/mixin';
+
+#source-config {
+    .table-header {
+        @include mixin.table-header;
+    }
+
+    ul.source-list {
+        @include mixin.table-list('source');
+        height: 300px;
+    }
+}

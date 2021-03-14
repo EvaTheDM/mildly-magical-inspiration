@@ -1,0 +1,21 @@
+<div class="flexcol">
+    <section class="content" style="overflow: auto; max-height: 520px;">
+        <p>Thank you for installing the <b>Mildly Magical Inspiration</b> module for <b>Foundry VTT</b>! You are using the latest Version {{ version }} of the module.</p>
+        <p>Using <b>MMI</b> is as simple as it gets. Create a source, make it the active one, set up the module settings and then start handing out cards to your players!</p>
+        <p>If you'd like to read through some more detailed instructions on how to use the module or how to create content for it visit MMI's github page!</p>
+        <h2>Change Log</h2>
+        {{#each changelog}}
+        <h3>v.{{ version }}</h3>
+        <p>{{{ description }}}</p>
+        <p><b>Version Changes</b></p>
+        <ul>
+            {{#each changes}}
+            <li>{{{ this }}}</li>
+            {{/each}}
+        </ul>
+        {{/each}}
+    </section>
+    <section class="button-footer flexrow" style="flex: 0;">
+        <button>Begin using Mildly Magical Inspiration</button>
+    </section>
+</div>

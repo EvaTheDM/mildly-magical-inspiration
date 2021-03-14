@@ -1,0 +1,41 @@
+.card-details {
+    .form-group {
+        // Positioning & Sizing
+        align-items: flex-start;
+
+        label {
+            // Positioning & Sizing
+            flex: 1;
+        }
+
+        select {
+            // Spacing
+            margin-left: 4px;
+            margin-bottom: 1px;
+        }
+
+        .flexrow input {
+            // Positioning & Sizing
+            flex: 0.1;
+        }
+
+        textarea {
+            // Positioning & Sizing
+            line-height: 16px;
+            min-height: 26px !important;
+
+            // Spacing
+            padding: 5px 3px;
+            margin: 0;
+
+            // Styling
+            border: 1px solid #7a7971;
+            overflow: hidden;
+
+            // Font
+            font-family: inherit;
+            font-size: inherit;
+            text-align: inherit;
+        }
+    }
+}

@@ -1,0 +1,7 @@
+foundry.js
+workspace.code-workspace
+jsconfig.json
+
+.vscode
+node_modules
+_legacy

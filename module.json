@@ -13,13 +13,6 @@
   	"styles/mmi.css"
   ],
   "socket": true,
-  "languages": [
-  	{
-  		"lang": "en",
-  		"name": "English",
-  		"path": "lang/en.json"
-  	}
-  ],
   "url": "This is auto replaced",
   "manifest": "This is auto replaced",
   "download": "This is auto replaced"

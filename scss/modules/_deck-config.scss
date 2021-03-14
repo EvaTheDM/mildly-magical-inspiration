@@ -1,0 +1,65 @@
+@use '../abstracts/mixin';
+
+// specific mixins
+// Sizing List correctly
+@mixin list-size {
+    height: 405px;
+    max-height: 405px;
+    flex: 5;
+}
+// Sizing Height correctly when active
+@mixin activeHeight {
+    &.active {
+        height: 466px !important;
+        max-height: 466px !important;
+    }
+}
+
+#deck-config {
+    #source-details, #source-filters, #source-footer {
+        // Positioning
+        flex: 0;
+    }
+
+    nav.list-filters .add {
+        // Positioning & Sizing
+        max-width: 30px;
+
+        // Spacing
+        padding-top: 5px;
+
+        // Font
+        text-align: center;
+    }
+
+    .table-header {
+        @include mixin.table-header;
+    }
+
+    ul.card-list {
+        @include mixin.table-list('card');
+        @include list-size;
+        @include activeHeight;
+    }
+    #no-cards {
+        @include list-size;
+        @include activeHeight;
+
+        // Positioning & Sizing
+        display: flex;
+
+        // Font
+        text-align: center;
+        align-items: center;
+
+        div {
+            // Positioning & Sizing
+            width: 100%;
+        }
+
+        &.hide {
+            // Positioning & Sizing
+            display: none !important;
+        }
+    }
+}

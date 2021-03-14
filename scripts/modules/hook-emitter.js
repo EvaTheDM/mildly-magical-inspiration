@@ -9,7 +9,7 @@ const _sendNotification = (msg, includeSelf = false) => {
 }
 
 const awardCard = ({ sender, cardId }) => {
-    MMI.socket('openHand', { userId: sender, focus: cardId });
+    MMI.socket('openHand', { userId: sender, opt: { render: false, focusCard: cardId } });
     ui.notifications.info(MMI.awardNotification(sender, cardId));
 }
 
@@ -24,7 +24,7 @@ const useCard = async ({ sender, cardId }) => {
         duration: cardData.duration.join(' ')
     });
 
-    MMI.socket('openHand', { userId: sender, render: false });
+    MMI.socket('openHand', { userId: sender, opt: { render: false } });
 
     _sendNotification(`<b>Mildly Magical Inspiration:</b> ${ game.users.get(sender).name } used the card ${cardData.title.join(' ')}`, true);
 
@@ -34,9 +34,10 @@ const useCard = async ({ sender, cardId }) => {
 }
 
 const passCard = ({ sender, newOwner, cardId }) => {
+    console.log('Passing')
     const cardData = MMI.getCardData(cardId);
-    MMI.socket('openHand', { userId: sender, render: false });
-    MMI.socket('openHand', { userId: newOwner, focus: cardId });
+    MMI.socket('openHand', { userId: sender, opt: { render: false } });
+    MMI.socket('openHand', { userId: newOwner, opt: { render: false, focusCard: cardId } });
 
     _sendNotification(`<b>Mildly Magical Inspiration:</b> <em>${ game.users.get(sender).name }</em> passed the card <em>${cardData.title.join(' ')}</em> to <em>${ game.users.get(newOwner).name }</em>`, true)
 }

@@ -1,10 +1,10 @@
 import DEFAULTS from '/modules/mmi/scripts/defaults.js';
 
-import ComboboxFactory from '/modules/mmi/scripts/modules/combobox.js';
+import Combobox from '/modules/mmi/scripts/modules/combobox.js';
 
-import Validator from '/modules/mmi/scripts/modules/validator.js';
-import * as sourceFactory from '/modules/mmi/scripts/modules/source-factory.js';
-import CreateExport from '/modules/mmi/scripts/modules/export.js';
+import validate from '/modules/mmi/scripts/modules/validator.js';
+import * as SourceFactory from '/modules/mmi/scripts/modules/source-factory.js';
+import exportSource from '/modules/mmi/scripts/modules/export.js';
 import createView from '/modules/mmi/scripts/modules/create-view.js';
 import updateButtonValue from '/modules/mmi/scripts/modules/button-update.js';
 import Dialogs from '/modules/mmi/scripts/modules/dialogs.js';
@@ -17,6 +17,8 @@ import registerSockets from '/modules/mmi/scripts/config/register-sockets.js';
 import SourceConfigApplication from '/modules/mmi/scripts/apps/SourceConfigApplication.js';
 import CardPermissionApplication from '/modules/mmi/scripts/apps/CardPermissionApplication.js';
 
+
+// Private Functions, can't be directly accessed through modules accessing this file
 const _getSetting = (setting) => { return duplicate(game.settings.get(DEFAULTS.module, setting)) }
 
 const _getFlag = (userId, key) => {
@@ -77,7 +79,8 @@ const _arraysMatch = (arr1, arr2) => {
     return true;
 };
 
-// Functions/Objects for export
+
+// Public Functions for export
 const MMI = {
     async pushGamemasterSetting(setting, data, hookEmitter = null) { await _setSetting(setting, data, hookEmitter) },
 
@@ -160,6 +163,12 @@ const MMI = {
         return cardData;
     },
 
+    checkHandSize(userId) {
+        const queueLength = MMI.checkQueue(userId)?.filter(q => q.type === 'multipleChoice')?.length || 0;
+        const ownedLength = MMI.activeDeck.filter(card => card.owner === userId).length;
+        return (queueLength + ownedLength) < MMI.handSize;
+    },
+
     lineBreak(lineString, cutOff) {
         return lineString.split(/\r?\n/g);
     },
@@ -193,9 +202,9 @@ const MMI = {
 
 export default MMI;
 
-export const validate = Validator;
 
-export const setup = {
+
+const setup = {
     registerSettings() {
         game.settings.registerMenu(DEFAULTS.module, 'sourceConfig', {
             name: 'Sources',
@@ -216,13 +225,12 @@ export const setup = {
     registerSockets
 }
 
-export const SourceFactory = sourceFactory;
-
-export const Combobox = ComboboxFactory;
-
-export const exportSource = CreateExport;
-
 export {
+    validate,
+    setup,
+    SourceFactory,
+    Combobox,
+    exportSource,
     createView,
     multipleChoice,
     makeChoice,

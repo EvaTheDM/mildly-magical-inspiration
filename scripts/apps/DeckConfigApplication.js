@@ -83,7 +83,7 @@ export default class DeckConfigApplication extends FormApplication {
 
 		html.find('ul.card-list')
 			.on('click', 'a.toggle-card', (event) => { this.toggleCard($(event.target).parents('li.card').prop('id')) })
-			.on('click', 'a.card-control[data-action=preview]', (event) => { createView('preview', { sourceId: data._id, cardData: SourceFactory.getCard(data._id, event.target.parentNode.id) }) })
+			.on('click', 'a.card-control[data-action=preview]', (event) => { createView({ type: 'preview', data: { sourceId: data._id, cardData: SourceFactory.getCard(data._id, event.target.parentNode.id) } }) })
 			.on('click', 'a.card-control[data-action=delete]', (event) => { this.deleteCard(event.target.parentNode.id) })
 			.on('input', 'textarea[name$=".title"]', (event) => { this.updateCardTitle(event.target) })
 			.on('input', 'textarea[data-resize="true"]', (event) => { this.resizeTextarea($(event.target)) });

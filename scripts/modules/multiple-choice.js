@@ -1,7 +1,7 @@
 import MMI, { createView, SourceFactory } from '/modules/mmi/scripts/main.js';
 
 export default async (offer) => {
-    if(MMI.openChoice) createView('award', { offer })
+    if(MMI.openChoice) createView({ type: 'award', data: { offer }, options: { render: false } })
     else {
         await MMI.makeDialog({
         	title: `Card Choice`,

@@ -22,8 +22,8 @@ export default async (html) => {
 			}
 		}
 		else if(MMI.activeDeck.length === 0) ui.notifications.error(`<b>Mildly Magical Inspiration:</b> The Gamemaster hasn't selected an active source!`)
-		else if(MMI.haveCards[game.user._id]) createView('single', { userId: game.user._id })
-		else if(game.user.role === 4) createView('gamemaster');
+		else if(MMI.haveCards[game.user._id]) createView({ type: 'single', data: { userId: game.user._id } })
+		else if(game.user.role === 4) createView({ type: 'gamemaster' });
 	})
 	
 	createContext();

@@ -1,4 +1,3 @@
-import DEFAULTS from '/modules/mmi/scripts/defaults.js';
 import MMI from '/modules/mmi/scripts/main.js';
 
 // import * as helpers from '../helpers/helpers.js';

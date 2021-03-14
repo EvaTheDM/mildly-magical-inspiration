@@ -44,7 +44,6 @@ export default {
 				
 				res._id = randomID(16);
 				res.owner = '';
-
 				return res;
 			}
 			else return false;

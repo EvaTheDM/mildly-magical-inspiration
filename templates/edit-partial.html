@@ -37,6 +37,8 @@
             <label>Currently Owned by:</label>
             <div class="combobox combobox-wrapper owner" id="cards.{{ card._id }}.owner"></div>
         </div>
+        {{else}}
+        <input type="hidden" name="cards.{{ card._id }}.owner" value="">
         {{/if}}
 
         <div class="form-group">

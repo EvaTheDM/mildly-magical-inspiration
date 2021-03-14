@@ -40,7 +40,7 @@
 	
 	<ul class="card-list">
 		{{# each cards}}
-		{{> editPartial card=this isActive=isActive }}
+		{{> editPartial card=this isActive=../isActive }}
 		{{/ each }}
 	</ul>
 	

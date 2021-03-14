@@ -1,4 +1,3 @@
-import DEFAULTS from '/modules/mmi/scripts/defaults.js';
 import MMI from '/modules/mmi/scripts/main.js';
 
 import SourceConfigApplication from '/modules/mmi/scripts/apps/SourceConfigApplication.js';

@@ -1,24 +1,83 @@
 import DEFAULTS from '/modules/mmi/scripts/defaults.js';
-import MMI, { Combobox, exportSource, SourceFactory } from '/modules/mmi/scripts/main.js';
+import MMI from '/modules/mmi/scripts/main.js';
 
 import CardViewerApplication from '/modules/mmi/scripts/apps/CardViewerApplication.js';
+
+const getWindowHeight = (type) => {
+	switch (type) {
+		case 'preview':
+		case 'fullDeck':
+			return 550;
+
+		case 'playerHands':
+			return 577;
+			
+		case 'award':
+		case 'single':
+			return 582;
+		
+		case 'gamemaster':
+			return 609;
+	}
+	return 'auto';
+}
+
+const getRenderOptions = (type) => {
+	const def = {
+		render: true, // renders the current application only if it isn't already open, else closes it
+		focusCard: null, // set an id to change which card to show to the user
+		focusUser: null, // set an id to change which user to focus on, overwritten by focusCard if multiple tabs exist
+	}
+
+	switch (type) {
+		case 'preview':
+			return {
+				...def,
+				render: false
+			}
+	
+		default:
+			return def
+	}
+}
+
+const defaultOptions = ({ type }) => {
+	return {
+		app: {
+			id: `${ type }UI`,
+			width: 800,
+			height: getWindowHeight(type),
+			popOut: true,
+			minimizable: true,
+			classes: [ 'card-viewer' ],
+			title: 'Mildly Magical Inspiration',
+			template: DEFAULTS.templatePath + '/card-view.html'
+		},
+		...getRenderOptions(type)
+	}
+}
+
 /*
 * Create UI for viewing cards
 * Supports the following keys and values:
 * 
 * {String} type					Switch between 'preview', 'single', 'gamemaster', 'award' View Mode
-* {Object} options				The data handed over for viewing cards, changes structure on different types
+* {Object} data					The data handed over for viewing cards, changes structure on different types
 *
 */
-export default async (type = 'single', options = {}) => {
+export default async ({ type = 'single', data = {} }, options = {}) => {
 	let object = [];
 	let title = '';
-	options.render = 'render' in options ? options.render : true;
+	// data.render = 'render' in data ? data.render : true;
+	options = {
+		...defaultOptions({ type }),
+		...options
+	}
 
 	switch(type) {
 		case 'award':
 			title = 'Card Choice'
-			const cards = MMI.activeDeck.filter(card => options.offer.includes(card._id)).map((card, key) => {
+			const cards = MMI.activeDeck.filter(card => data.offer.includes(card._id)).map((card, key) => {
 				return {
 					...card,
 					title: card.title.join('<br />'),
@@ -30,7 +89,7 @@ export default async (type = 'single', options = {}) => {
 			})
 			
 			object.push({
-				userId: options.userId,
+				userId: data.userId,
 				cards: cards.length,
 				controls: cards.length > 1,
 				cardData: cards,
@@ -45,7 +104,7 @@ export default async (type = 'single', options = {}) => {
 			break;
 			
 		case 'preview':
-			title = `${ options.cardData.title.join(' ') } - Card Preview`;
+			title = `${ data.cardData.title.join(' ') } - Card Preview`;
 			
 			object.push({
 				userId: '',
@@ -53,19 +112,19 @@ export default async (type = 'single', options = {}) => {
 				cards: 1,
 				controls: false,
 				cardData: [ { 
-					...options.cardData,
-					title: options.cardData.title.join('<br />'),
-					subtitle: options.cardData.subtitle.join('<br />'),
-					cost: options.cardData.cost.join(' '),
-					duration: options.cardData.duration.join(' ')
+					...data.cardData,
+					title: data.cardData.title.join('<br />'),
+					subtitle: data.cardData.subtitle.join('<br />'),
+					cost: data.cardData.cost.join(' '),
+					duration: data.cardData.duration.join(' ')
 				} ],
 				ui: []
 			});
 			break;
 		
 		case 'single':
-			const userCards = MMI.activeDeck.filter(card => card.owner === options.userId)
-			const user = game.users.get(options.userId);
+			const userCards = MMI.activeDeck.filter(card => card.owner === data.userId)
+			const user = game.users.get(data.userId);
 			title = `Player Hand`;
 			
 			object.push({
@@ -219,37 +278,33 @@ export default async (type = 'single', options = {}) => {
 		}
 		
 		const cardViewer = new CardViewerApplication({
-			width: 800,
-			height: windowHeight,
-			popOut: true,
-			minimizable: true,
-			id: `${type}UI`,
-			classes: [ 'card-viewer' ],
-			title: `Mildly Magical Inspiration - ${ title }`,
-			template: DEFAULTS.templatePath + '/card-view.html',
-			type,
-			focus: options.hasOwnProperty('focus') ? options.focus : null,
+			...options.app,
+			title: `${ options.app.title } - ${ title }`,
+			focusCard: options.focusCard,
+			focusUser: options.focusUser,
 			object,
 			...type === 'preview' || type === 'fullDeck' ? {
-				id: `previewUI`,
-				sourceId: options.sourceId
+				sourceId: data.sourceId
 			}
 				: type === 'gamemaster' || type === 'playerHands' ? {
 					tabs: [{navSelector: ".tabs", contentSelector: ".content", initial: "userHand-1234"}]
 				} : type === 'award' ? {
-						offer: options.offer
+						offer: data.offer
 					} : { }
 		});
 
-		// render: false
-		if((type != 'preview') && !options.hasOwnProperty('focus')) {
+		/*
+		* Rendering
+		* Additionally to data parameters additional parameters may be handed over to change the rendering behaviour
+		* A rerender is forced when render is set to false, or when focusCard or focusUser is not null
+		*/
+		if(options.render && options.focusCard === null && options.focusUser === null) {
+			// Check if is open, if it is close, else open it!
 			let isOpen = false;
 			Object.keys(ui.windows).forEach(key => {
 				if(ui.windows[key].options.id === `${ type }UI`) {
-					if(options.render) {
-						isOpen = true;
-						ui.windows[key].close();
-					}
+					isOpen = true;
+					ui.windows[key].close();
 				}
 			})
 			if(!isOpen) cardViewer.render(true);

@@ -6,9 +6,7 @@ export default function () {
 		switch(operation) {
 			case 'openHand':
 				if(data.userId === game.user._id) {
-					const dat = { userId: game.user._id };
-					if(data.hasOwnProperty('focus')) dat.focus = data.focus;
-					createView('single', dat)
+					createView({ type: 'single', data: { userId: data.userId } }, data.opt || { })
 				}
 				break;
 			case 'multipleChoice':
@@ -21,7 +19,7 @@ export default function () {
 				if(game.user._id === data.recipient) ui.notifications.info(data.message);
 				break;
 			case 'showCard':
-				if(data.users.includes(game.user._id)) createView('preview', { cardData: MMI.activeDeck.find(card => card._id === data.cardId) })
+				if(data.users.includes(game.user._id)) createView({ type: 'preview', data: { cardData: MMI.activeDeck.find(card => card._id === data.cardId) } })
 				break;
 		}
 	});

@@ -52,7 +52,6 @@ const convertCard = (card) => {
 
 const migrate = async () => {
     if((game.settings.settings.has('mmi.sources') && game.settings.settings.has('mmi.deck')) || game.settings.get('mmi', 'version') != '2.0.0') {
-        console.log('hi?')
         const newSources = [
             ...game.settings.get('mmi', 'sources').map(source => {
                 return {

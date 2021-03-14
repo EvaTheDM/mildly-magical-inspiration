@@ -1,4 +1,3 @@
-import DEFAULTS from '/modules/mmi/scripts/defaults.js';
 import MMI, { SourceFactory, createView } from '/modules/mmi/scripts/main.js';
 
 import SourceConfigApplication from '/modules/mmi/scripts/apps/SourceConfigApplication.js';
@@ -39,25 +38,19 @@ export const makeMenuItems = () => {
 			label: 'View Deck',
 			icon: 'fa-inbox',
 			show: (MMI.activeSource && MMI.activeDeck.length > 0) ? game.user.role === 4 ? true : MMI.viewDeck[game.user._id] ?? false : false,
-			callback: () => createView('fullDeck', {})
+			callback: () => createView({ type: 'fullDeck' })
 		},
 		{
 			label: 'Player Hands',
 			icon: 'fa-inbox',
 			show: (MMI.activeSource && MMI.activeDeck.length > 0) ? MMI.viewPlayerHands[game.user._id] ?? false : false,
-			callback: () => createView('playerHands', {})
+			callback: () => createView({ type: 'playerHands' })
 		},
 		{
 			label: 'Award Card',
 			icon: 'fa-user-check',
 			show,
 			callback: () => {
-				const validHand = (userId) => {
-					const queueLength = MMI.checkQueue(userId)?.filter(q => q.type === 'multipleChoice')?.length || 0;
-					const ownedLength = MMI.activeDeck.filter(card => card.owner === userId).length;
-					return (queueLength + ownedLength) < MMI.handSize;
-				}
-
 				MMI.makeDialog({
 					title: `Award Card`,
 					content: `<p>Choose a player to award a card to!</p>`,
@@ -67,7 +60,7 @@ export const makeMenuItems = () => {
 						options: [
 							{ value: '', label: 'Choose a Player' },
 							...game.users.filter(user => MMI.haveCards[user._id]).map(user => {
-								return { value: user._id, label: `${ user.name }${ user.active ? ` (Online)` : '' }`, disabled: !validHand(user._id) }
+								return { value: user._id, label: `${ user.name }${ user.active ? ` (Online)` : '' }`, disabled: !MMI.checkHandSize(user._id) }
 							})
 						]
 					},
@@ -97,7 +90,7 @@ export const makeMenuItems = () => {
 
 								if(offer.length === 1) {
 									await SourceFactory.awardCard(offer[0], newUser)
-									if(game.users.get(newUser).active) MMI.socket('openHand', { userId: newUser })
+									if(game.users.get(newUser).active) MMI.socket('openHand', { userId: newUser, opt: { render: false, focusCard: offer[0] } })
 									ui.notifications.info(MMI.awardNotification(newUser, offer[0], false));
 								}
 								else if(offer.length > 1) {

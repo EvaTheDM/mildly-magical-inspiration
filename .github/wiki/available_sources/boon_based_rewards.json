@@ -1,0 +1,220 @@
+{
+    "title": "Simple 5th Edition Boon Based Rewards",
+    "author": "EvaTheDM",
+    "cards": [
+      {
+        "title": [
+          "Demands of Nessus"
+        ],
+        "subtitle": [
+          "Choose one ally you can see within 30 feet.",
+          "That creature loses 10 hit points, and you regain",
+          "the same number of hitpoints."
+        ],
+        "include": true,
+        "cost": [
+          "1",
+          "Reaction"
+        ],
+        "duration": [
+          "",
+          "Instantaneous"
+        ],
+        "description": ""
+      },
+      {
+        "title": [
+          "Path of the Cheaters"
+        ],
+        "subtitle": [
+          "Choose one ally you can see within 30 feet.",
+          "Until the start of that creature's next turn, you gain advantage on all ability checks and",
+          "attack rolls, while the chosen ally suffers disadvantage on all ability checks,",
+          "attack rolls, and saving throws."
+        ],
+        "include": true,
+        "cost": [
+          "1",
+          "Bonus Action"
+        ],
+        "duration": [
+          "",
+          "Instantaneous"
+        ],
+        "description": "Yep, there is **no** advantage on saving throws for you!"
+      },
+      {
+        "title": [
+          "Vexing Escape"
+        ],
+        "subtitle": [
+          "When you take damage, reduce that damage to 0 and",
+          "teleport up to 60 feet to an unoccupied space you can see."
+        ],
+        "include": true,
+        "cost": [
+          "1",
+          "Reaction"
+        ],
+        "duration": [
+          "",
+          "Instantaneous"
+        ],
+        "description": ""
+      },
+      {
+        "title": [
+          "Loyalty beyond Death"
+        ],
+        "subtitle": [
+          "When an ally you can see is reduced to 0 hit points, that ally is instead",
+          "reduced to 1 hit point and gains temporary hit points equal to your",
+          "Charisma score + half your number of Hit Dice."
+        ],
+        "include": true,
+        "cost": [
+          "1",
+          "Reaction"
+        ],
+        "duration": [
+          "",
+          "Instantaneous"
+        ],
+        "description": ""
+      },
+      {
+        "title": [
+          "Crushing Blow"
+        ],
+        "subtitle": [
+          "You gain a bonus to the damage roll of your next melee weapon attack",
+          "equal to your Strength modifier (minimum of +1)."
+        ],
+        "include": true,
+        "cost": [
+          "1",
+          "Bonus Action"
+        ],
+        "duration": [
+          "",
+          "Instantaneous"
+        ],
+        "description": ""
+      },
+      {
+        "title": [
+          "Step into Shadows"
+        ],
+        "subtitle": [
+          "You, along with anything you are wearing and carrying,",
+          "magically become invisible until the end of your next turn."
+        ],
+        "include": true,
+        "cost": [
+          "1",
+          "Action"
+        ],
+        "duration": [
+          "1",
+          "Round"
+        ],
+        "description": ""
+      },
+      {
+        "title": [
+          "Spell Shield"
+        ],
+        "subtitle": [
+          "Reroll one failed saving throw against a spell or magical effect."
+        ],
+        "include": true,
+        "cost": [
+          "1",
+          "Reaction"
+        ],
+        "duration": [
+          "",
+          "Instantaneous"
+        ],
+        "description": ""
+      },
+      {
+        "title": [
+          "Fiery Soul"
+        ],
+        "subtitle": [
+          "You gain resistance to fire damage. If you drop to 0 hit points within",
+          "the next minute, flames shoot out from you to shield you;",
+          "each creature within 10 feet of you take fire damage",
+          "equal to your number of Hit Dice."
+        ],
+        "include": true,
+        "cost": [
+          "1",
+          "Bonus Action"
+        ],
+        "duration": [
+          "1",
+          "Minute"
+        ],
+        "description": "The resistance only lasts for one minute."
+      },
+      {
+        "title": [
+          "Unerring Tracker"
+        ],
+        "subtitle": [
+          "You create a psychic link with one creature you can see.",
+          "For the next hour, as a bonus action you learn the current distance",
+          "and direction to the target if it is on the same plane of existence."
+        ],
+        "include": true,
+        "cost": [
+          "1",
+          "Action"
+        ],
+        "duration": [
+          "",
+          "Instantaneous"
+        ],
+        "description": ""
+      },
+      {
+        "title": [
+          "Labyrinthine Recall"
+        ],
+        "subtitle": [
+          "You can perfectly recall one path you have traveled."
+        ],
+        "include": true,
+        "cost": [
+          "1",
+          "Bonus Action"
+        ],
+        "duration": [
+          "24",
+          "Hours"
+        ],
+        "description": ""
+      },
+      {
+        "title": [
+          "Serpentine Reaction"
+        ],
+        "subtitle": [
+          "Take one extra reaction this round.",
+          "This reaction can only be used to make an opportunity attack."
+        ],
+        "include": true,
+        "cost": [
+          "",
+          "Free Action"
+        ],
+        "duration": [
+          "1",
+          "Round"
+        ],
+        "description": ""
+      }
+    ]
+  }

@@ -1,0 +1,203 @@
+@use '../abstracts/fonts';
+
+$card: #C9A174;
+
+@mixin header-fotter($dir, $padding, $fontSize, $child) {
+    // Positioning & Sizing
+    height: 16%;
+    align-content: center;
+
+    // Spacing
+    padding: 0 2%;
+    padding-#{$dir}: $padding;
+
+    // Font
+    font-size: $fontSize;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+
+    & > #{$child}:last-child {
+        // Font
+        text-align: right;
+    }
+}
+
+.card-viewer {
+    .tabs {
+        // Spacing
+        padding-bottom: .1em;
+        margin-bottom: .2em;
+
+        // Styling
+        border-bottom: 1px solid #000;
+        
+        // Font
+        font-size: 1.2em;
+    }
+
+    .card {
+        // Positioning
+        position: relative;
+
+        // Font
+        font-family: fonts.$main;
+        color: $card;
+    }
+
+    .card-content {
+        // Positioning
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+
+        .card-header {
+            @include header-fotter('bottom', 1.6%, 0.8em, 'span');
+        }
+
+        .card-wording {
+            // Positioning & Sizing
+            position: relative;
+            height: 67%;
+            justify-content: center;
+
+            // Font
+            text-align: center;
+
+            .description-wrapper {
+                // Positioning & Sizing
+                position: absolute;
+                top: 20px;
+                right: 20px;
+
+                .description-button {
+                    // Styling
+                    cursor: pointer;
+
+                    &:hover {
+                        // Styling
+                        text-shadow: 0 0 8px red;
+                    }
+                    &:hover + section.inner .description {
+                        // Positioning
+                        display: block;
+                    }
+                }
+
+                section.inner {
+                    // Positioning
+                    position: relative;
+
+                    .description {
+                        // Positioning & Sizing
+                        position: absolute;
+                        display: none;
+                        top: 0;
+                        right: 0;
+                        width: 200px;
+
+                        // Spacing
+                        padding: .5em;
+
+                        // Styling
+                        background: rgba($color: #ffffff, $alpha: .1);
+                        border: 1px solid black;
+                        border-radius: 3px;
+
+                        // Font
+                        text-align: left;
+                        color: white;
+                        font-family: 'Signika', sans-serif;
+                        font-weight: unset;
+                    }
+                }
+            }
+
+            .line {
+                // Spacing
+                padding: 0.5%;
+
+                span {
+                    // Positioning & Sizing
+                    width: 100%;
+
+                    &.title {
+                        // Font
+                        font-size: 2.3em;
+                        text-transform: uppercase;
+                        font-weight: 600;
+                        letter-spacing: 0.05em;
+                    }
+
+                    &.subtitle {
+                        // Font
+                        font-size: 1.4em;
+                        letter-spacing: 0.01em;
+                    }
+                }
+                &:first-child {
+                    // Positioning
+                    position: relative;
+                    display: flex;
+                    align-items: flex-end;
+
+                    &::after {
+                        // Positioning & Sizing
+                        position: absolute;
+                        display: block;
+                        width: 600px;
+                        height: 200px;
+                        left: calc(50% - 300px);
+
+                        // Styling
+                        background: $card;
+                        content: ' ';
+                        clip-path: ellipse(50% 1% at 50% 100%);
+                    }
+                }
+
+                &.no-cards {
+                    // Positioning
+                    align-items: center;
+
+                    &::after {
+                        // Positioning
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        .card-footer {
+            @include header-fotter('top', 2.2%, 2.5em, 'div');
+            
+            .card-nav {
+                // Sizing
+                max-width: 40px;
+
+                // Styling
+                outline: none;
+                border-radius: 0;
+                border: 0;
+                border-bottom: 1px solid $card;
+
+                // Font
+                color: $card;
+            }
+
+            & a.disabled {
+                // Styling
+	            cursor: default;
+                opacity: 0.5;
+
+                // Font
+	            color: #686868;
+                text-shadow: none;
+            }
+        }
+    }
+}

@@ -1,0 +1,9 @@
+<div>
+    <p class="note">Take your pick!</p>
+    <section class="card-choice flexrow">
+        <input type="hidden" name="chosen" value="" />
+        {{#each choices}}
+        <img src="{{ ../img }}" data-target="{{ this }}" />
+        {{/each}}
+    </section>
+</div>

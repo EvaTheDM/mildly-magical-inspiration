@@ -1,0 +1,50 @@
+<form autocomplete="off" onsubmit="event.preventDefault();">
+    <p class="notes">Configure which User role has permission to perform which action. Note that some actions cannot be disabled for Game Master users. Some changes may not take effect until the game is reloaded.</p>
+
+    <header class="table-header flexrow">
+        <label class="index">Permission</label>
+        {{#each users }}
+        <label>{{ name }}</label>
+        {{/each}}
+    </header>
+
+    <ul class="permissions-list">
+        <li class="permission form-group">
+            <label class="index">Can Have Cards</label>
+            <div class="form-fields">
+                {{#each users }}
+                <input type="checkbox" name="haveCards.{{ _id }}"{{#if permissions.haveCards }} checked{{/if}}>
+                {{/each}}
+            </div>
+            <p class="hint">Allow players to hold cards in their hand.</p>
+        </li>
+        <li class="permission form-group">
+            <label class="index">Can View Player Hands</label>
+            <div class="form-fields">
+                {{#each users }}
+                <input type="checkbox" name="viewPlayerHands.{{ _id }}"{{#if permissions.viewPlayerHands }} checked{{/if}}>
+                {{/each}}
+            </div>
+            <p class="hint">Allow players to always view other players cards.</p>
+        </li>
+        <li class="permission form-group">
+            <label class="index">View Full Deck</label>
+            <div class="form-fields">
+                {{#each users }}
+                <input type="checkbox" name="viewDeck.{{ _id }}"{{#if permissions.viewDeck }} checked{{/if}}>
+                {{/each}}
+            </div>
+            <p class="hint">Allow players to view all available cards from the currently active Source.</p>
+        </li>
+    </ul>
+
+    <div class="form-group">
+        <button type="submit" name="submit">
+            <i class="fas fa-save"></i> Save Configuration
+        </button>
+
+        <button type="button" name="reset">
+            <i class="fas fa-sync"></i> Reset Defaults
+        </button>
+    </div>
+</form>

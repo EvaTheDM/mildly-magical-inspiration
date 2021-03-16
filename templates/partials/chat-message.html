@@ -1,0 +1,20 @@
+<div class="dnd5e red-full chat-card">
+    <div><div class="dnd5e chat-card item-card">
+        <header class="card-header flexrow red-header" style="align-items: center;">
+            <img src="systems/dnd5e/icons/items/inventory/parchment.jpg" title="{{ title }}" width="36" height="36">
+            <h3 class="item-name" style="line-height: 18px;">{{ title }}</h3>
+        </header>
+    <div></div>
+    
+    <div class="card-content br-text">
+        <p><em>{{ subtitle }}</em></p>
+        {{# if description }}
+        <p>{{{ description }}}</p>
+        {{/if}}
+    </div>
+    
+    <footer class="card-footer">
+        <span>{{ cost }}</span>
+        <span>{{ duration }}</span>
+    </footer>
+</div>

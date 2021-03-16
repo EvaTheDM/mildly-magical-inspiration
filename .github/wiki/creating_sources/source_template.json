@@ -1,0 +1,48 @@
+{
+  "title": "Source Title",
+  "author": "Source Author",
+  "cards": [
+    {
+      "title": "1st Card Title",
+      "subtitle": "1st Card Subtitle",
+      "include": true,
+      "cost": [
+        "1",
+        "Reaction"
+      ],
+      "duration": [
+        "",
+        "Instantaneous"
+      ],
+      "description": "1st Card Description"
+    },
+    {
+      "title": "2nd Card Title",
+      "subtitle": "2nd Card Subtitle",
+      "include": true,
+      "cost": [
+        "",
+        "Free Action"
+      ],
+      "duration": [
+        "24",
+        "Hours"
+      ],
+      "description": "2nd Card Description"
+    },
+    {
+      "title": "3rd Card Title",
+      "subtitle": "3rd Card Subtitle",
+      "include": true,
+      "cost": [
+        "1",
+        "Action"
+      ],
+      "duration": [
+        "2",
+        "Days"
+      ],
+      "description": "3rd Card Description"
+    }
+  ]
+}

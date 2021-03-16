@@ -1,45 +1,74 @@
-import registerSettings from './scripts/setup/registerSettings.js';
-import registerSockets from './scripts/setup/registerSockets.js';
-import setupDeck from './scripts/setup/setup.js';
-import createUI from './scripts/createUI.js';
-import * as defaults from './scripts/defaults.js';
-import updateButtonValue from './scripts/helpers/updateButtonValue.js';
-import * as deckConfig from './scripts/helpers/DeckConfigHelpers.js';
-import { handoutCard } from './scripts/helpers/socketHelpers.js';
+import DEFAULTS from '/modules/mmi/scripts/defaults.js';
+import MMI, { setup, createView, multipleChoice, handleHook } from '/modules/mmi/scripts/main.js';
+import createUI from '/modules/mmi/scripts/config/create-ui.js';
 
-Hooks.once('init', () => {
-	registerSettings();
+import migrate from '/modules/mmi/scripts/modules/migrate.js';
+import VersionApplication from '/modules/mmi/scripts/apps/VersionApplication.js';
+
+import CardPermissionApplication from '/modules/mmi/scripts/apps/CardPermissionApplication.js';
+
+Hooks.once('init', async () => {
+	setup.registerSettings();
 	
-	registerSockets();
+	setup.registerSockets();
 	
-	Handlebars.registerHelper('concat', function() {
-		var outStr = '';
-		for(var arg in arguments){
-			if(typeof arguments[arg]!='object'){
-				outStr += arguments[arg];
-			}
-		}
-		return outStr;
-	});
+	Handlebars.registerPartial('editPartial', await getTemplate('modules/mmi/templates/edit-partial.html'));
 });
 
 Hooks.once('ready', async () => {
-	updateButtonValue();
-	
-	if(game.user.role === 4 && (game.settings.get(defaults.MODULE, 'deck').length === 0 || game.settings.get(defaults.MODULE, 'sources').length === 0)) setupDeck();
-	else if(game.user.getFlag(defaults.MODULE, 'choice') && game.user.getFlag(defaults.MODULE, 'choice').length > 0) {
-		const rnCards = game.user.getFlag(defaults.MODULE, 'choice');
-		if(rnCards.length === 1) deckConfig.changePlayerOwner(rnCards[0], game.user._id, true);
-		else handoutCard({
-				user: game.user._id,
-				cards: rnCards
-			})
-		game.user.unsetFlag(defaults.MODULE, 'choice');
+	console.log(`Mildly Magical Inspiration | Version ${ MMI.version }`);
+
+	const queue = MMI.checkQueue(game.user._id);
+	if(queue?.length) {
+		let multipleOpen = false;
+		for (const q of queue) {
+			switch (q.type) {
+				case 'multipleChoice':
+					if(!multipleOpen) {
+						multipleOpen = true;
+						multipleChoice(q.offer);
+					}
+					break;
+			
+				default:
+					break;
+			}
+		}
+	}
+	MMI.updateButtonValue();
+
+	if(game.user.role === 4 && (Object.keys(MMI.permissions).length === 0 || (!MMI.permissions.hasOwnProperty('haveCards') || !MMI.permissions.hasOwnProperty('viewDeck') || !MMI.permissions.hasOwnProperty('viewPlayerHands')))) {
+		ui.notifications.error(`<b>Mildly Magical Inspiration:</b> Update your players' permissions to match the new system!`)
+		new CardPermissionApplication().render(true);
+	}
+
+	if(game.user.role === 4 && (MMI.version != '2.0.0' || MMI.sources.length === 0 || MMI.requireMigration)) {
+		if(MMI.version != '2.0.0') MMI.version = '2.0.0';
+
+		if(MMI.requireMigration) {
+			// migrate to new version if previously used old version of the module
+			await migrate();
+		}
+
+		new VersionApplication({
+			width: 400,
+			height: 600,
+			popOut: true,
+			minimizable: false,
+			id: `mmi-version-update`,
+			title: `Mildly Magical Inspiration - Version ${ MMI.version }`,
+			template: DEFAULTS.templatePath + '/version.html',
+			version: MMI.version
+		}).render(true);
 	}
 });
 
-
-
 Hooks.once('renderPlayerList', (app, html, data) => {
+	game.MMI = {}
 	createUI(html);
 });
+
+Hooks.on('changedMMISetting', (hookEmitter) => {
+	if(handleHook.hasOwnProperty(hookEmitter.change)) handleHook[hookEmitter.change](hookEmitter);
+	else console.log(hookEmitter)
+})

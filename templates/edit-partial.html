@@ -1,0 +1,65 @@
+<li class="card flexcol" id="{{ card._id }}">
+    <header class="table-header flexrow">
+        <div class="flexrow" style="flex: 15;">
+            <a class="toggle-card" id="{{ card._id }}"><i class="fas fa-angle-up"></i></a>
+            <label id="{{ card._id }}" class="header-title" style="flex: 20;">{{#if card.title }}{{ card.title }}{{else}}<em>Unnamed Card</em>{{/if}}</label>
+            <input type="hidden" name="cards.{{ card._id }}._id" value="{{ card._id }}">
+        </div>
+        <div class="card-controls flexrow">
+            <label><a class="card-control" id="{{ card._id }}" data-action="preview"><i class="fas fa-search"></i></a></label>
+            <label><a class="card-control" id="{{ card._id }}" data-action="delete"><i class="fas fa-times"></i></a></label>
+        </div>
+    </header>
+    
+    <div class="card-details" style="display: none;">
+        <div class="form-group">
+            <label>Title:</label>
+            <textarea name="cards.{{ card._id }}.title" data-resize="true" style="height: 26px;">{{ card.title }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Subtitle:</label>
+            <textarea name="cards.{{ card._id }}.subtitle" data-resize="true" style="height: 26px;">{{ card.subtitle }}</textarea>
+        </div>
+        
+        <!-- <div class="form-group">
+            <label>Alternative Image Path:</label>
+            <input type="text" name="cards.{{ card._id }}.image" value="{{ card.image }}" />
+        </div> -->
+        
+        <div class="form-group">
+            <label>Include in Deck?:</label>
+            <input type="checkbox" name="cards.{{ card._id }}.include" value="{{ include }}"{{#if card.include}} checked=""{{/if}} />
+        </div>
+        
+        {{#if isActive }}
+        <div class="form-group">
+            <label>Currently Owned by:</label>
+            <div class="combobox combobox-wrapper owner" id="cards.{{ card._id }}.owner"></div>
+        </div>
+        {{else}}
+        <input type="hidden" name="cards.{{ card._id }}.owner" value="">
+        {{/if}}
+
+        <div class="form-group">
+            <label>Activation Cost:</label>
+            <div class="flexrow">
+                <input type="text" name="cards.{{ card._id }}.cost[0]" value="{{ card.cost.[0] }}" style="max-width: 30px; margin-right: 3px;">
+                <div class="combobox combobox-wrapper cost" id="cards.{{ card._id }}.cost[1]"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Duration:</label>
+            <div class="flexrow">
+                <input type="text" name="cards.{{ card._id }}.duration[0]" value="{{ card.duration.[0] }}" style="max-width: 30px; margin-right: 3px;">
+                <div class="combobox combobox-wrapper duration" id="cards.{{ card._id }}.duration[1]"></div>
+            </div>
+        </div>
+        
+        <div class="form-group stacked">
+            <label>Description:</label>
+            <textarea name="cards.{{ card._id }}.description" data-resize="true" style="height: 26px;">{{ card.description }}</textarea>
+        </div>
+    </div>
+</li>

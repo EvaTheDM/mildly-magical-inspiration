@@ -1,0 +1,58 @@
+#hotbar {
+    // Positioning & Sizing
+	left: 265px;
+}
+
+#inspiration-deck-button {
+    // Positioning & Sizing
+	position: fixed;
+	bottom: 10px;
+	left: 220px;
+	height: 52px;
+	width: 39px;
+
+    // Spacing
+	margin: 0 2px;
+	padding: 0;
+
+    // Styling
+	border: 1px solid #000;
+
+    .action-link {
+        // Positioning & Sizing
+        height: 100%;
+
+        // Styling
+        cursor: pointer;
+    }
+
+    .player-card-number {
+        // Positioning & Sizing
+        position: absolute;
+        bottom: 2px;
+        right: 0px;
+        left: 0px;
+
+        // Spacing
+        padding: 1px 3px;
+
+        // Styling
+        background-color: rgba(255, 100, 0, 0.5);
+
+        // Font
+        color: #f0f0e0;
+        text-align: center;
+        font-size: 0.7em;
+        font-weight: bold;
+    }
+
+    &:hover {
+        // Styling
+        box-shadow: 0 0 8px #ff6400;
+    }
+
+    #context-menu {
+        // Font
+        text-align: left;
+    }
+}

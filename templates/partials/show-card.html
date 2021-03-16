@@ -1,0 +1,15 @@
+<div>
+    <p>Select everyone who you would like to show the card "<em>{{ title }}</em>" to!</p>
+    <div class="flexrow">
+        <div class="flexrow" style="min-width: 100%;">
+            <input type="checkbox" name="show-all-players">
+            <span style="align-self: center;">Show All</span>
+        </div>
+        {{#each users }}
+        <div class="flexrow" style="min-width: 50%;">
+            <input type="checkbox" name="show-players-select" value="{{ _id }}">
+            <span style="align-self: center;">{{ name }}</span>
+        </div>
+        {{/each }}
+    </div>
+</div>

@@ -11,7 +11,7 @@
 			</header>
 		</li>
 		{{# each sources}}
-		<li class="source flexrow" id="{{ _id }}">
+		<li class="source flexrow{{#if isActive }} isActive{{/if}}" id="{{ _id }}">
 			<div></div>
 			<div style="flex: 15;">
 				<label id="{{ _id }}" class="header-title" style="flex: 20;">{{ title }}</label>

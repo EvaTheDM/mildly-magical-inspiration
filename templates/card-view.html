@@ -18,36 +18,30 @@
 			{{#each cardData }}
 			<div class="flexcol card-wrapper" id="{{ _id }}" {{#unless ../preview }}style="display: none;"{{/unless}}>
 				<div class="card">
-					<img src="{{ ../../cardFront }}" style="width:100%;" />
+					<img src="{{ ../../cardFront }}" style="max-width: 787px;" />
 					<div class="card-content">
 						<div class="card-header flexrow">
-							<svg viewBox="0 0 700 14">
-								<text x="40" y="10" fill="#C9A174">Mildly Magical Inspiration</text>
-								<text x="390" y="10" fill="#C9A174">{{ cost }} | {{ duration }}</text>
-							</svg>
+							<span class="module-title">Mildly Magical Inspiration</span>
+							<span class="cost-duration">{{ cost }} | {{ duration }}</span>
 						</div>
 						<div class="card-wording flexcol">
-							<svg viewBox="0 0 834 363">
-								<text y="165" fill="#C9A174" text-anchor="middle" alignment-baseline="central">
-									{{#each title}}
-									<tspan x="417" dy="{{#if @key}}0.9em{{else}}0{{/if}}" style="font-size: 2.5em; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em;">{{ this }}</tspan>
-									{{/each}}
-									{{#each subtitle}}
-									<tspan x="417" dy="{{#if @key}}0.9em{{else}}1.5em{{/if}}" style="font-size: 1.5em; letter-spacing: 0.01em;">{{ this }}</tspan>
-									{{/each}}
-								</text>
-							</svg>
+							<div class="line">
+								<span class="title">{{{ title }}}</span>
+							</div>
+							<div class="line">
+								<span class="subtitle">{{{ subtitle }}}</span>
+							</div>
 						</div>
 						{{#if ../controls }}
 						<div class="card-footer flexrow">
 							<div>
-								<a class="card-switch left" id="{{_id}}" data-current="{{ @key }}"><i class="fas fa-angle-double-left"></i></a>
+								<a class="card-switch" id="{{_id}}" data-direction="prev" data-current="{{ @key }}"><i class="fas fa-angle-double-left"></i></a>
 							</div>
 							<div style="text-align: center;">
 								<span style="font-size: 0.7em;"><span class="current-card-counter" id="{{_id}}">{{ this.count }}</span>/<span class="total-card-counter" id="{{_id}}">{{ ../cards }}</span></span>
 							</div>
 							<div>
-								<a class="card-switch right" id="{{_id}}" data-current="{{ @key }}"><i class="fas fa-angle-double-right"></i></a>
+								<a class="card-switch" id="{{_id}}" data-direction="next" data-current="{{ @key }}"><i class="fas fa-angle-double-right"></i></a>
 							</div>
 						</div>
 						{{/if}}
@@ -63,14 +57,12 @@
 			{{ else }}
 			<div class="flexcol card-wrapper" id="{{ _id }}">
 				<div class="card">
-					<img src="{{ ../cardFront }}" style="width:100%;" />
+					<img src="{{ ../cardFront }}" style="max-width: 787px;" />
 					<div class="card-content">
 						<div class="card-wording flexcol" style="height: 100%;">
-							<svg viewBox="0 0 834 363">
-								<text y="165" fill="#C9A174" text-anchor="middle" alignment-baseline="central">
-									<tspan x="417" dy="0.9em" style="font-size: 2.5em; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em;">{{ username }} currently has no cards!</tspan>
-								</text>
-							</svg>
+							<div class="line no-cards">
+								<span class="subtitle">{{ username }} currently has no cards!</span>
+							</div>
 						</div>
 					</div>
 				</div>

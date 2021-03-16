@@ -1,106 +1,57 @@
-<form autocomplete="off" onsubmit="event.preventDefault();">
-    
-    <p class="notes">Configure the card deck which is used for this module. You can filter the cards by which are owned by players and change ownership of cards too.</p>
-	
-	<nav class="list-filters">
-		<a class="add" data-action="add"><i class="fas fa-plus"></i></a>
-		<input type="text" name="search" placeholder="Filter Cards" value="">
-		<a class="filter active" data-filter="all">All Cards (<span class="count-all">{{ count.all }}</span>)</a>
-		<a class="filter" data-filter="owned">Player Owned (<span class="count-owned">{{ count.owned }}</span>)</a>
-		<a class="filter" data-filter="available">Unowned (<span class="count-available">{{ count.available }}</span>)</a>
-	</nav>
+<form autocomplete="off" class="flexcol" onsubmit="event.preventDefault();">
+	<input type="hidden" name="source.{{ _id }}._id" value="{{ _id }}" />
+	{{#unless isActive}}
+    <div id="source-details">
+        <div class="form-group">
+            <label>Title:</label>
+            <input type="text" name="source.{{ _id }}.title" value="{{ title }}" />
+        </div>
+		
+        <div class="form-group">
+            <label>Author:</label>
+            <input type="text" name="source.{{ _id }}.author" value="{{ author }}" />
+        </div>
+	</div>
+	{{else}}
+	<input type="hidden" name="source.{{ _id }}.title" value="{{ title }}" />
+	<input type="hidden" name="source.{{ _id }}.author" value="{{ author }}" />
+	{{/unless}}
+	<input type="hidden" name="source.{{ _id }}.isActive" value="{{ isActive }}" />
+
+	<div id="source-filters">
+		<p class="notes">Configure the card deck which is used for this module. You can filter the cards by which are owned by players and change ownership of cards too.</p>
+		
+		<nav class="list-filters">
+			<a class="add" data-action="add"><i class="fas fa-plus"></i></a>
+			<input type="text" name="search" placeholder="Filter Cards" value="">
+			<a class="filter switch active" data-filter="default">Show All</a>
+			{{#if isActive }}
+			<a class="filter active" data-filter="all">All Cards (<span class="count-all"></span>)</a>
+			<a class="filter" data-filter="owned">Player Owned (<span class="count-owned"></span>)</a>
+			<a class="filter" data-filter="available">Unowned (<span class="count-available"></span>)</a>
+			{{/if}}
+		</nav>
+	</div>
+
+	<div id="no-cards" class="hide">
+		<div>
+			There are no cards that match your criteria!
+		</div>
+	</div>
 	
 	<ul class="card-list">
-		{{# each deck}}
-		<li class="card flexcol" id="{{ _id }}">
-			<header class="table-header flexrow">
-				<div class="flexrow" style="flex: 15;">
-					<a class="toggle-card" id="{{ _id }}"><i class="fas fa-angle-up"></i></a>
-					<label id="{{ _id }}" class="header-title" style="flex: 20;">{{#if title }}{{ title }}{{else}}<em>Unnamed New Card</em>{{/if}}</label>
-					<input type="hidden" name="deck.{{ _id }}._id" value="{{ _id }}">
-				</div>
-				<div class="card-controls flexrow">
-					<label><a class="card-control" id="{{ _id }}" data-action="preview"><i class="fas fa-search"></i></a></label>
-					<label><a class="card-control" id="{{ _id }}" data-action="delete"><i class="fas fa-times"></i></a></label>
-				</div>
-			</header>
-			
-			<div class="card-details" style="display: none;">
-				<div class="form-group">
-					<label>Title:</label>
-					<textarea name="deck.{{ _id }}.title" style="height: 26px;">{{ title }}</textarea>
-				</div>
-				
-				<div class="form-group">
-					<label>Subtitle:</label>
-					<textarea name="deck.{{ _id }}.subtitle" style="height: 26px;">{{ subtitle }}</textarea>
-				</div>
-				
-				<div class="form-group">
-					<label>Include in Deck?:</label>
-					<input type="checkbox" name="deck.{{ _id }}.include" value="{{ include }}"{{#if include}} checked=""{{/if}} />
-				</div>
-				
-				<div class="form-group">
-					<label>Currently Owned by:</label>
-					<select class="player-select" name="deck.{{ _id }}.owner">
-						<option value="">None</option>
-						{{selectOptions ../players selected=owner}}
-					</select>
-				</div>
-				
-				<div class="form-group">
-					<label>Activation Cost:</label>
-					<div class="flexrow">
-						<input type="number" name="deck.{{ _id }}.cost[0]" value="{{ cost.[0] }}" style="max-width: 30px; margin-right: 3px;" />
-						<div class="select-wrapper" id="costWrapper-{{ _id }}" data-select-id="{{ _id }}" data-select-type="cost">
-							<div class="select-inputWrapper flexrow" data-select-id="{{ _id }}" data-select-type="cost">
-								<input type="text" class="select-listInput" data-select-id="{{ _id }}" data-select-type="cost" name="deck.{{ _id }}.cost[1]" value="{{ cost.[1] }}" />
-								<a class="select-dropdown" id="activatedrop-1"><i class="fas fa-sort-down"></i></a>
-							</div>
-							<div class="select-selectWrapper" data-select-id="{{ _id }}" data-select-type="cost">
-								<ul class="custom-select cost" id="cost.select.{{ _id }}" style="display: none;"></ul>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label>Duration:</label>
-					<div class="flexrow">
-						<input type="number" name="deck.{{ _id }}.duration[0]" value="{{ duration.[0] }}" style="max-width: 30px; margin-right: 3px;" />
-						<div class="select-wrapper" id="durationWrapper-{{ _id }}" data-select-id="{{ _id }}" data-select-type="duration">
-							<div class="select-inputWrapper flexrow" data-select-id="{{ _id }}" data-select-type="duration">
-								<input type="text" class="select-listInput" name="deck.{{ _id }}.duration[1]" value="{{ duration.[1] }}" data-select-id="{{ _id }}" data-select-type="duration" />
-								<a class="select-dropdown" id="activatedrop-1"><i class="fas fa-sort-down"></i></a>
-							</div>
-							<div class="select-selectWrapper" data-select-id="{{ _id }}" data-select-type="duration">
-								<ul class="custom-select duration" id="duration.select.{{ _id }}" style="display: none;"></ul>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="form-group stacked">
-					<label>Description:</label>
-					<textarea name="deck.{{ _id }}.description" rows="6">{{ description }}</textarea>
-				</div>
-			</div>
-		</li>
+		{{# each cards}}
+		{{> editPartial card=this isActive=../isActive }}
 		{{/ each }}
 	</ul>
 	
-	<div class="form-group">
-		<!--<button type="submit" name="submit">
-			<i class="fas fa-save"></i> Save Configuration
-		</button>-->
-		
+	<div id="source-footer" class="form-group">
 		<button type="button" name="export">
-			<i class="fas fa-file-download"></i> Export Current Deck
+			<i class="fas fa-file-download"></i> Export
 		</button>
 		
 		<button type="button" name="reset">
-			<i class="fas fa-sync"></i> Load Deck
+			<i class="fas fa-sync"></i>  <label>Replace</label>
 		</button>
 	</div>
 </form>

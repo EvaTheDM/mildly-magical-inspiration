@@ -48,7 +48,7 @@
 
 ## About The Project
 
-<img src=".github/readme/mmi_intro.png" alt="Mildly Magical Inspiration Screenshot">
+<img src=".github/readme/mmi_intro.jpg" alt="Mildly Magical Inspiration Screenshot">
 
 **Mildly Magical Inspiration** was created as a way to give players in D&D 5th Edition games something slightly more interesting than advantage as inspiration. Despite that the module can easily be adapted to any game system that uses some kind of reward system for players.
 

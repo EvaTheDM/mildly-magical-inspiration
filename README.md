@@ -83,6 +83,10 @@ For details on this please visit the [Getting Started](https://github.com/EvaThe
 
 See the [open issues](https://github.com/EvaTheDM/mildly-magical-inspiration/issues) for a list of proposed features and known bugs. For a full planned roadmap you can visit the [project board roadmap](https://github.com/EvaTheDM/mildly-magical-inspiration/projects/1).
 
+## Contact
+
+If you have any further questions about using the module I'm a regular visitor of the Foundry Discord server where you can contact me under the discord handle **Eva#4821**.
+
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.

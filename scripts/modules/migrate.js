@@ -16,7 +16,7 @@ const lineBreak = (lineString, cutOff) => {
     }
     
     // Check for Custom Line-Breaks
-    const cusWordArr = lineString.split('\n');
+    const cusWordArr = lineString.replace('\n', '\\n\\').split('\\n\\');
     if(cusWordArr.length > 1) return cusWordArr;
     else {
         const lineArr = [''];
@@ -51,7 +51,7 @@ const convertCard = (card) => {
 }
 
 const migrate = async () => {
-    if((game.settings.settings.has('mmi.sources') && game.settings.settings.has('mmi.deck')) || game.settings.get('mmi', 'version') != '2.0.0') {
+    if((game.settings.settings.has('mmi.sources') && game.settings.settings.has('mmi.deck') && game.settings.get('mmi', 'deck').length > 0) || game.settings.get('mmi', 'version') != '2.0.0') {
         const newSources = [
             ...game.settings.get('mmi', 'sources').map(source => {
                 return {
@@ -73,6 +73,7 @@ const migrate = async () => {
         await game.settings.set('mmi', 'sources', newSources);
     }
     await game.settings.set('mmi', 'requireMigration', false)
+    ui.notifications.info(`<b>Mildly Magical Inspiration:</b> Migration to v.2.0.0 successful!`)
     return true;
 }
 

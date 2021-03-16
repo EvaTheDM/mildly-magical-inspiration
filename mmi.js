@@ -48,7 +48,6 @@ Hooks.once('ready', async () => {
 		if(MMI.requireMigration) {
 			// migrate to new version if previously used old version of the module
 			await migrate();
-			ui.notifications.info(`<b>Mildly Magical Inspiration:</b> Migration to v.2.0.0 successful!`)
 		}
 
 		new VersionApplication({
@@ -73,7 +72,3 @@ Hooks.on('changedMMISetting', (hookEmitter) => {
 	if(handleHook.hasOwnProperty(hookEmitter.change)) handleHook[hookEmitter.change](hookEmitter);
 	else console.log(hookEmitter)
 })
-
-// Hooks.on('changedMMISource', (source, change, editor) => {
-// 	console.log('Source Changed')
-// })

@@ -60,6 +60,13 @@ export default function () {
 		}
 	});
 
+	// Only hear for backwards compatibility
+	game.settings.register(DEFAULTS.module, 'deck', {
+		scope: 'world',
+		config: false,
+		default: []
+	});
+
 	// Hidden Version Setting
 	game.settings.register(DEFAULTS.module, 'version', {
 		scope: 'world',

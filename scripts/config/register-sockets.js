@@ -19,7 +19,10 @@ export default function () {
 				if(game.user._id === data.recipient) ui.notifications.info(data.message);
 				break;
 			case 'showCard':
-				if(data.users.includes(game.user._id)) createView({ type: 'preview', data: { cardData: MMI.activeDeck.find(card => card._id === data.cardId) } })
+				if(data.users.includes(game.user._id)) createView({ type: 'preview', data: { sourceId: data.sourceId, cardId: data.cardId } })
+				break;
+			case 'triggerHook':
+				Hooks.call('changedMMISetting', (data))
 				break;
 		}
 	});

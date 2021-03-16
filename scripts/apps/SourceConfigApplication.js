@@ -64,10 +64,6 @@ export default class SourceConfigApplication extends FormApplication {
 
 		activeSource.append(newEl);
 	}
-
-	reloadApp() {
-		new SourceConfigApplication().render(true);
-	}
 	
 	addSource() {
 		MMI.makeDialog({
@@ -112,7 +108,6 @@ export default class SourceConfigApplication extends FormApplication {
 	
 	async createSource(data = { title: 'New Source' }) {
 		const newSource = await SourceFactory.create(data);
-		this.reloadApp();
 		this.openSource(newSource._id);
 	}
 	
@@ -131,7 +126,7 @@ export default class SourceConfigApplication extends FormApplication {
 					label: 'Delete Source',
 					callback: async () => {
 						await SourceFactory.removeSource(sourceId);
-						this.reloadApp();
+						
 					}
 				}
 			}
@@ -142,9 +137,3 @@ export default class SourceConfigApplication extends FormApplication {
 		//
 	}
 }
-
-Hooks.on('rerenderSourceConfig', () => {
-	Object.keys(ui.windows).forEach(key => {
-		if(ui.windows[key] instanceof SourceConfigApplication) new SourceConfigApplication().render(true);
-	})
-})

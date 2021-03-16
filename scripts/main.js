@@ -9,7 +9,7 @@ import createView from '/modules/mmi/scripts/modules/create-view.js';
 import updateButtonValue from '/modules/mmi/scripts/modules/button-update.js';
 import Dialogs from '/modules/mmi/scripts/modules/dialogs.js';
 import multipleChoice, { makeChoice } from '/modules/mmi/scripts/modules/multiple-choice.js';
-import * as handleHook from '/modules/mmi/scripts/modules/hook-emitter.js';
+import handleHook from '/modules/mmi/scripts/modules/hook-emitter.js';
 
 import registerSettings from '/modules/mmi/scripts/config/register-settings.js';
 import registerSockets from '/modules/mmi/scripts/config/register-sockets.js';
@@ -40,7 +40,7 @@ const _setSetting = async (setting, data, hookEmitter = null) => {
     if(game.user.role === 4) {
         await game.settings.set(DEFAULTS.module, setting, data);
         if(hookEmitter) {
-            Hooks.call('mmiSettingChanged', hookEmitter);
+            Hooks.call('changedMMISetting', hookEmitter);
             if(hookEmitter.change === 'awardCard') MMI.removeFromQueue('multipleChoice', hookEmitter.sender, hookEmitter.offer);
         }
     }
@@ -68,6 +68,12 @@ const _queueDown = async (type, userId = game.user._id, data = null) => {
         }
     }
     await _setFlag(userId, 'queue', queue.filter(filter));
+    return true;
+}
+
+const _clearQueue = async (type, userId = game.user._id) => {
+    const queue = _getFlag(userId, 'queue') || [];
+    await _setFlag(userId, 'queue', queue.filter(q => q.type != type))
     return true;
 }
 
@@ -122,8 +128,8 @@ const MMI = {
 
     getCardData (cardId) { return this.activeDeck.find(card => card._id === cardId) },
 
-    async setSources (data) {
-        await _setSetting('sources', data);
+    async setSources (data, hookEmitter = null) {
+        await _setSetting('sources', data, hookEmitter);
         return this.sources;
     },
 
@@ -140,13 +146,15 @@ const MMI = {
 
     async removeFromQueue(type, userId = null, data = null) { await _queueDown(type, userId, data) },
 
+    async clearQueue(type, userId) { await _clearQueue(type, userId) },
+
     async recallCards() {
         const recall = this.activeSource;
         recall.cards = recall.cards.map(card => {
             return { ...card, owner: '' }
         })
 
-        await this.setSource(recall._id, recall);
+        await this.setSource(recall._id, recall, { change: 'recall' });
 
         return true;
     },

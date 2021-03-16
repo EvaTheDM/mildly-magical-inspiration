@@ -66,249 +66,229 @@ const defaultOptions = ({ type }) => {
 *
 */
 export default async ({ type = 'single', data = {} }, options = {}) => {
-	let object = [];
-	let title = '';
+	// let object = [];
+	// let title = '';
 	// data.render = 'render' in data ? data.render : true;
 	options = {
 		...defaultOptions({ type }),
 		...options
 	}
 
-	switch(type) {
-		case 'award':
-			title = 'Card Choice'
-			const cards = MMI.activeDeck.filter(card => data.offer.includes(card._id)).map((card, key) => {
-				return {
-					...card,
-					title: card.title.join('<br />'),
-					subtitle: card.subtitle.join('<br />'),
-					cost: card.cost.join(' '),
-					duration: card.duration.join(' '),
-					count: key + 1
-				}
-			})
+	// switch(type) {
+	// 	case 'award':
+	// 		title = 'Card Choice'
+	// 		const cards = MMI.activeDeck.filter(card => data.offer.includes(card._id)).map((card, key) => {
+	// 			return {
+	// 				...card,
+	// 				title: card.title.join('<br />'),
+	// 				subtitle: card.subtitle.join('<br />'),
+	// 				cost: card.cost.join(' '),
+	// 				duration: card.duration.join(' '),
+	// 				count: key + 1
+	// 			}
+	// 		})
 			
-			object.push({
-				userId: data.userId,
-				cards: cards.length,
-				controls: cards.length > 1,
-				cardData: cards,
-				ui: [
-					{
-						dataAction: 'choose-card',
-						icon: '',
-						label: 'Choose this Card!'
-					}
-				]
-			});
-			break;
+	// 		object.push({
+	// 			userId: data.userId,
+	// 			cards: cards.length,
+	// 			controls: cards.length > 1,
+	// 			cardData: cards,
+	// 			ui: [
+	// 				{
+	// 					dataAction: 'choose-card',
+	// 					icon: '',
+	// 					label: 'Choose this Card!'
+	// 				}
+	// 			]
+	// 		});
+	// 		break;
 			
-		case 'preview':
-			title = `${ data.cardData.title.join(' ') } - Card Preview`;
+	// 	case 'preview':
+	// 		title = `${ data.cardData.title.join(' ') } - Card Preview`;
 			
-			object.push({
-				userId: '',
-				preview: true,
-				cards: 1,
-				controls: false,
-				cardData: [ { 
-					...data.cardData,
-					title: data.cardData.title.join('<br />'),
-					subtitle: data.cardData.subtitle.join('<br />'),
-					cost: data.cardData.cost.join(' '),
-					duration: data.cardData.duration.join(' ')
-				} ],
-				ui: []
-			});
-			break;
+	// 		object.push({
+	// 			userId: '',
+	// 			preview: true,
+	// 			cards: 1,
+	// 			controls: false,
+	// 			cardData: [ { 
+	// 				...data.cardData,
+	// 				title: data.cardData.title.join('<br />'),
+	// 				subtitle: data.cardData.subtitle.join('<br />'),
+	// 				cost: data.cardData.cost.join(' '),
+	// 				duration: data.cardData.duration.join(' ')
+	// 			} ],
+	// 			ui: []
+	// 		});
+	// 		break;
 		
-		case 'single':
-			const userCards = MMI.activeDeck.filter(card => card.owner === data.userId)
-			const user = game.users.get(data.userId);
-			title = `Player Hand`;
+	// 	case 'single':
+	// 		const userCards = MMI.activeDeck.filter(card => card.owner === data.userId)
+	// 		const user = game.users.get(data.userId);
+	// 		title = `Player Hand`;
 			
-			object.push({
-				userId: user._id,
-				username: user.name,
-				cards: userCards.length,
-				controls: userCards.length > 1,
-				cardData: userCards.map((card, key) => {
-					return {
-						...card,
-						title: card.title.join('<br />'),
-						subtitle: card.subtitle.join('<br />'),
-						cost: card.cost.join(' '),
-						duration: card.duration.join(' '),
-						count: key + 1
-					}
-				}),
-				ui: [
-					{
-						dataAction: 'show-card',
-						icon: '',
-						label: 'Show Card'
-					},
-					{
-						dataAction: 'move-card',
-						icon: '',
-						label: 'Pass Card'
-					},
-					{
-						dataAction: 'use-card',
-						icon: '',
-						label: 'Use Card'
-					}
-				]
-			});
-			break;
+	// 		object.push({
+	// 			userId: user._id,
+	// 			username: user.name,
+	// 			cards: userCards.length,
+	// 			controls: userCards.length > 1,
+	// 			cardData: userCards.map((card, key) => {
+	// 				return {
+	// 					...card,
+	// 					title: card.title.join('<br />'),
+	// 					subtitle: card.subtitle.join('<br />'),
+	// 					cost: card.cost.join(' '),
+	// 					duration: card.duration.join(' '),
+	// 					count: key + 1
+	// 				}
+	// 			}),
+	// 			ui: [
+	// 				{
+	// 					dataAction: 'show-card',
+	// 					icon: '',
+	// 					label: 'Show Card'
+	// 				},
+	// 				{
+	// 					dataAction: 'move-card',
+	// 					icon: '',
+	// 					label: 'Pass Card'
+	// 				},
+	// 				{
+	// 					dataAction: 'use-card',
+	// 					icon: '',
+	// 					label: 'Use Card'
+	// 				}
+	// 			]
+	// 		});
+	// 		break;
 	
-		case 'fullDeck':
-			const allCards = MMI.activeDeck;
-			title = `All Cards`;
+	// 	case 'fullDeck':
+	// 		const allCards = MMI.activeDeck;
+	// 		title = `All Cards`;
 			
-			object.push({
-				userId: '',
-				// preview: true,
-				cards: MMI.activeDeck.length,
-				controls: MMI.activeDeck.length > 1,
-				cardData: MMI.activeDeck.map((card, key) => {
-					return {
-						...card,
-						title: card.title.join('<br />'),
-						subtitle: card.subtitle.join('<br />'),
-						cost: card.cost.join(' '),
-						duration: card.duration.join(' '),
-						count: key + 1
-					}
-				}),
-				ui: []
-			});
-			break;
+	// 		object.push({
+	// 			userId: '',
+	// 			// preview: true,
+	// 			cards: MMI.activeDeck.length,
+	// 			controls: MMI.activeDeck.length > 1,
+	// 			cardData: MMI.activeDeck.map((card, key) => {
+	// 				return {
+	// 					...card,
+	// 					title: card.title.join('<br />'),
+	// 					subtitle: card.subtitle.join('<br />'),
+	// 					cost: card.cost.join(' '),
+	// 					duration: card.duration.join(' '),
+	// 					count: key + 1
+	// 				}
+	// 			}),
+	// 			ui: []
+	// 		});
+	// 		break;
 		
-		case 'playerHands':
-			title = `Player Hands`;
+	// 	case 'playerHands':
+	// 		title = `Player Hands`;
 			
-			const players = game.users.filter(user => MMI.haveCards[user._id] && user._id != game.user._id)
-			for(const user of players) {
-				let cardData = MMI.activeDeck.filter(card => card.owner === user._id).map((card, key) => {
-					return {
-						...card,
-						title: card.title.join('<br />'),
-						subtitle: card.subtitle.join('<br />'),
-						cost: card.cost.join(' '),
-						duration: card.duration.join(' '),
-						count: key + 1
-					}
-				});
+	// 		const players = game.users.filter(user => MMI.haveCards[user._id] && user._id != game.user._id)
+	// 		for(const user of players) {
+	// 			let cardData = MMI.activeDeck.filter(card => card.owner === user._id).map((card, key) => {
+	// 				return {
+	// 					...card,
+	// 					title: card.title.join('<br />'),
+	// 					subtitle: card.subtitle.join('<br />'),
+	// 					cost: card.cost.join(' '),
+	// 					duration: card.duration.join(' '),
+	// 					count: key + 1
+	// 				}
+	// 			});
 				
-				object.push({
-					userId: user._id,
-					username: user.name,
-					cards: cardData.length,
-					controls: cardData.length > 1,
-					cardData: cardData,
-					ui: []
-				});
-			}
-			break;
+	// 			object.push({
+	// 				userId: user._id,
+	// 				username: user.name,
+	// 				cards: cardData.length,
+	// 				controls: cardData.length > 1,
+	// 				cardData: cardData,
+	// 				ui: []
+	// 			});
+	// 		}
+	// 		break;
 		
-		case 'gamemaster':
-			title = `Player Hands (Gamemaster View)`;
+	// 	case 'gamemaster':
+	// 		title = `Player Hands (Gamemaster View)`;
 			
-			const users = game.users.filter(user => MMI.haveCards[user._id])
-			for(const user of users) {
-				let cardData = MMI.activeDeck.filter(card => card.owner === user._id).map((card, key) => {
-					return {
-						...card,
-						title: card.title.join('<br />'),
-						subtitle: card.subtitle.join('<br />'),
-						cost: card.cost.join(' '),
-						duration: card.duration.join(' '),
-						count: key + 1
-					}
-				});
+	// 		const users = game.users.filter(user => MMI.haveCards[user._id])
+	// 		for(const user of users) {
+	// 			let cardData = MMI.activeDeck.filter(card => card.owner === user._id).map((card, key) => {
+	// 				return {
+	// 					...card,
+	// 					title: card.title.join('<br />'),
+	// 					subtitle: card.subtitle.join('<br />'),
+	// 					cost: card.cost.join(' '),
+	// 					duration: card.duration.join(' '),
+	// 					count: key + 1
+	// 				}
+	// 			});
 				
-				object.push({
-					userId: user._id,
-					username: user.name,
-					cards: cardData.length,
-					controls: cardData.length > 1,
-					cardData: cardData,
-					ui: [
-						{
-							dataAction: 'show-card',
-							icon: '',
-							label: 'Show Card'
-						},
-						{
-							dataAction: 'move-card',
-							icon: '',
-							label: 'Pass Card'
-						},
-						{
-							dataAction: 'return-card',
-							icon: '',
-							label: 'Take Card'
-						}
-					]
-				});
-			}
-			break;
-	}
-	if(object.length > 0) {
-		let windowHeight;
-		switch(type) {
-			case 'preview':
-			case 'fullDeck':
-				windowHeight = 550;
-				break;
+	// 			object.push({
+	// 				userId: user._id,
+	// 				username: user.name,
+	// 				cards: cardData.length,
+	// 				controls: cardData.length > 1,
+	// 				cardData: cardData,
+	// 				ui: [
+	// 					{
+	// 						dataAction: 'show-card',
+	// 						icon: '',
+	// 						label: 'Show Card'
+	// 					},
+	// 					{
+	// 						dataAction: 'move-card',
+	// 						icon: '',
+	// 						label: 'Pass Card'
+	// 					},
+	// 					{
+	// 						dataAction: 'return-card',
+	// 						icon: '',
+	// 						label: 'Take Card'
+	// 					}
+	// 				]
+	// 			});
+	// 		}
+	// 		break;
+	// }
+	// if(object.length > 0) {
+		
+	const cardViewer = new CardViewerApplication({
+		...options.app,
+		title: `${ options.app.title } - Replace`,
+		focusCard: options.focusCard,
+		focusUser: options.focusUser,
+		data,
+		type,
+		...type === 'gamemaster' || type === 'playerHands' ? { tabs: [{navSelector: ".tabs", contentSelector: ".content", initial: "userHand-1234"}] } : {}
+		// ...type === 'preview' || type === 'fullDeck' ? {
+		// 	sourceId: data.sourceId
+		// }
+		// 	} : type === 'award' ? {
+		// 			offer: data.offer
+		// 		} : { }
+	});
 
-			case 'playerHands':
-				windowHeight = 577;
-				break;
-				
-			case 'award':
-			case 'single':
-				windowHeight = 582;
-				break;
-			
-			case 'gamemaster':
-				windowHeight = 609;
-				break;
-		}
-		
-		const cardViewer = new CardViewerApplication({
-			...options.app,
-			title: `${ options.app.title } - ${ title }`,
-			focusCard: options.focusCard,
-			focusUser: options.focusUser,
-			object,
-			...type === 'preview' || type === 'fullDeck' ? {
-				sourceId: data.sourceId
+	/*
+	* Rendering
+	* Additionally to data parameters additional parameters may be handed over to change the rendering behaviour
+	* A rerender is forced when render is set to false, or when focusCard or focusUser is not null
+	*/
+	if(options.render && options.focusCard === null && options.focusUser === null) {
+		// Check if is open, if it is close, else open it!
+		let isOpen = false;
+		Object.keys(ui.windows).forEach(key => {
+			if(ui.windows[key].constructor.name === 'CardViewerApplication' && ui.windows[key].options.id === `${ type }UI`) {
+				isOpen = true;
+				ui.windows[key].close();
 			}
-				: type === 'gamemaster' || type === 'playerHands' ? {
-					tabs: [{navSelector: ".tabs", contentSelector: ".content", initial: "userHand-1234"}]
-				} : type === 'award' ? {
-						offer: data.offer
-					} : { }
-		});
-
-		/*
-		* Rendering
-		* Additionally to data parameters additional parameters may be handed over to change the rendering behaviour
-		* A rerender is forced when render is set to false, or when focusCard or focusUser is not null
-		*/
-		if(options.render && options.focusCard === null && options.focusUser === null) {
-			// Check if is open, if it is close, else open it!
-			let isOpen = false;
-			Object.keys(ui.windows).forEach(key => {
-				if(ui.windows[key].options.id === `${ type }UI`) {
-					isOpen = true;
-					ui.windows[key].close();
-				}
-			})
-			if(!isOpen) cardViewer.render(true);
-		}
-		else cardViewer.render(true);
+		})
+		if(!isOpen) cardViewer.render(true);
 	}
+	else cardViewer.render(true);
+	// }
 }

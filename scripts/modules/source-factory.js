@@ -17,19 +17,6 @@ export const sourceKeys = {
 	// all: [ ...this.direct, ...this.custom, ...this.fix ]
 };
 
-// export const getSource = async (sourceId = null) => {
-// 	const result = await helpers.getSetting('decks');
-// 	if(sourceId) return result.find(source => source._id === sourceId)
-// 	else return result;
-// }
-// export const getActive = async () => {
-// 	const result = await getSource();
-// 	return result.find(source => source.isActive);
-// }
-// export const updateSource  = async (data) => {
-// 	await helpers.updateSetting('decks', data);
-// }
-
 export const create = async ({ title = '', isActive = false, author = '', cards = [] } = {}) => {
 	const newSource = {
 		_id: randomID(16),
@@ -50,18 +37,69 @@ export const create = async ({ title = '', isActive = false, author = '', cards 
 	await MMI.setSources([
 		...MMI.sources,
 		newSource
-	])
+	], { change: 'createSource' })
 	
 	return newSource;
 }
 
 export const removeSource = async (sourceId) => {
 	let sources = MMI.sources;
-	await MMI.setSources(sources.filter(source => source._id != sourceId));
+	let change = 'removeSource';
+	if(sourceId === MMI.activeSource._id) {
+		for (const user of game.users) {
+			await MMI.clearQueue('multipleChoice', user._id)
+		}
+		change = 'changeActive';
+	}
+	await MMI.setSources(sources.filter(source => source._id != sourceId), { change });
 	return MMI.sources;
 }
 
-export const update = async (sourceId, data, hookEmitter = null) => {
+const compareSource = (org, altered) => {
+	const isArray = (x)  => {
+		return Object.prototype.toString.call(x) === '[object Array]';
+	}
+	const isObject = (x) => {
+		return Object.prototype.toString.call(x) === '[object Object]';
+	}
+	const returnValue = (k) => {
+		return { org: org[k], upd: altered[k] }
+	}
+
+	let diff = {}
+	for(let key in org) {
+		if(isArray(org[key]) || isObject(org[key])) {
+			org[key].forEach(o => {
+				const comp = altered[key].find(a => a._id === o._id) || [];
+				if(comp.length === 0) {
+					if(diff.hasOwnProperty(key)) diff[key].push(o._id);
+					else diff[key] = [ o._id ]
+				}
+				else {
+					Object.keys(o).forEach(sub => {
+						const conv = sub === 'title' || sub === 'subtitle' ? o[sub].join('\n') : o[sub];
+						if(isArray(conv)) {
+							conv.forEach((c, k) => {
+								if(c != comp[sub][k]) {
+									if(diff.hasOwnProperty(key)) diff[key].push(o._id);
+									else diff[key] = [ o._id ]
+								}
+							})
+						}
+						else if(conv != comp[sub]) {
+							if(diff.hasOwnProperty(key)) diff[key].push(o._id);
+							else diff[key] = [ o._id ]
+						}
+					})
+				}
+			})
+		}
+		else if(org[key] != altered[key]) diff[key] = returnValue(key)
+	}
+	return diff;
+}
+
+export const update = async (sourceId, data, hookEmitter = { change: 'updateSource', data: { sourceId } }) => {
 	const toUpdate = Object.keys(data).filter(key => sourceKeys.direct.includes(key));
 	const update = toUpdate.reduce(function(map, key) {
 		if(key === 'cards') map.cards = data.cards.map(card => {
@@ -78,7 +116,7 @@ export const update = async (sourceId, data, hookEmitter = null) => {
 	await MMI.setSource(sourceId, {
 		...MMI.getSource(sourceId),
 		...update
-	}, hookEmitter);
+	}, { ...hookEmitter, sourceChanges: compareSource(MMI.getSource(sourceId), data) });
 	
 	return MMI.getSource(sourceId)
 }
@@ -96,7 +134,7 @@ export const changeActive = async (sourceId) => {
 	})
 
 	if(active) await MMI.setSource(active._id, active);
-	await MMI.setSource(newActive._id, newActive);
+	await MMI.setSource(newActive._id, newActive, { change: 'changeActive' });
 
 	return newActive;
 }
@@ -120,16 +158,6 @@ export const removeCard = async (sourceId, cardId) => {
 
 	return MMI.getSource(sourceId);
 }
-
-// export const getCards = async (parent) => {
-// 	const source = await getSource(parent);
-// 	return source.cards;
-// }
-
-// export const getCard = async (parent, cardId) => {
-// 	const cards = await getCards(parent);
-// 	return cards.find(card => card._id === cardId);
-// }
 
 
 

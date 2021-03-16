@@ -16,6 +16,7 @@
 	<input type="hidden" name="source.{{ _id }}.title" value="{{ title }}" />
 	<input type="hidden" name="source.{{ _id }}.author" value="{{ author }}" />
 	{{/unless}}
+	<input type="hidden" name="source.{{ _id }}.isActive" value="{{ isActive }}" />
 
 	<div id="source-filters">
 		<p class="notes">Configure the card deck which is used for this module. You can filter the cards by which are owned by players and change ownership of cards too.</p>

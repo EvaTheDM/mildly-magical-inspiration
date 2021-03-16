@@ -5,17 +5,178 @@ export default class CardViewerApplication extends Application {
 	constructor(options={}) {
 		super(options);
 	}
+
+	makeUI(buttons = []) {
+		return buttons.map(btn => {
+			let [ label = '', dataAction = '', icon = '' ] = btn.split('.');
+			icon = icon != '' ? `<i class="fas ${ icon }"></i>` : '';
+			return {
+				dataAction,
+				icon,
+				label
+			}
+		})
+	}
 	
+	createData(type, options) {
+		let cardData;
+		const convertCard = (cardData) => {
+			return {
+				title: cardData.title.join('<br />'),
+				subtitle: cardData.subtitle.join('<br />'),
+				cost: cardData.cost.join(' '),
+				duration: cardData.duration.join(' ')
+			}
+		}
+
+		const makeObject = ({ cards, userId = '', username = '', ui = null, ...rest}) => {
+			return {
+				userId,
+				username,
+				cards: cards.length,
+				controls: cards.length > 1,
+				cardData: cards,
+				ui: ui != null ? this.makeUI(ui) : [],
+				...rest
+			}
+		}
+
+		switch (type) {
+			case 'gamemaster':
+				// Doesn't receive any options for creating Data
+				return {
+					title: `Player Hands (Gamemaster View)`,
+					data: game.users.filter(user => MMI.haveCards[user._id]).map(user => {
+						cardData = MMI.activeDeck.filter(card => card.owner === user._id).map((card, key) => {
+							return {
+								...card,
+								...convertCard(card),
+								count: key + 1
+							}
+						});
+
+						return makeObject({
+							userId: user._id,
+							username: user.name,
+							cards: cardData,
+							ui: [ 'Show Card.show-card', 'Pass Card.move-card', 'Take Card.return-card' ]
+						})
+					})
+				}
+			
+			case 'preview':
+				// receives two parameters, sourceId and cardId, which are both strings
+
+				cardData = MMI.getSource(options.sourceId).cards.find(card => card._id === options.cardId);
+				return {
+					title: `${ cardData.title.join(' ') }`,
+					data: [
+						makeObject({
+							cards: [{
+								...cardData,
+								...convertCard(cardData)
+							}],
+							preview: true
+						})
+					]
+				}
+			
+			case 'fullDeck':
+				// doesn't receive any options
+				return {
+					title: `All Cards`,
+					data: [
+						makeObject({
+							cards: MMI.activeDeck.map((card, key) => {
+								return {
+									...card,
+									...convertCard(card),
+									count: key +1
+								}
+							})
+						})
+					]
+				}
+			
+			case 'playerHands':
+				// doesn't receive any options
+				return {
+					title: `Player Hands`,
+					data: game.users.filter(user => MMI.haveCards[user._id] && user._id != game.user._id).map(user => {
+						cardData = MMI.activeDeck.filter(card => card.owner === user._id).map((card, key) => {
+							return {
+								...card,
+								...convertCard(card),
+								count: key + 1
+							}
+						});
+
+						return makeObject({
+							userId: user._id,
+							username: user.name,
+							cards: cardData
+						})
+					})
+				}
+			
+			case 'single':
+				// receives a single parameter, userId
+				return {
+					title: `Player Hand`,
+					data: [
+						makeObject({
+							userId: options.userId,
+							username: game.users.get(options.userId).name,
+							cards: MMI.activeDeck.filter(card => card.owner === options.userId).map((card, key) => {
+								return {
+									...card,
+									...convertCard(card),
+									count: key + 1
+								}
+							}),
+							ui: [ 'Show Card.show-card', 'Pass Card.move-card', 'Use Card.use-card' ]
+						})
+					]
+				}
+			
+			case 'award':
+				// receives a single parameter, offer
+				return {
+					title: `Card Choice`,
+					data: [
+						makeObject({
+							userId: game.user._id,
+							cards: MMI.activeDeck.filter(card => options.offer.includes(card._id)).map((card, key) => {
+								return {
+									...card,
+									...convertCard(card),
+									count: key + 1
+								}
+							}),
+							ui: [ 'Choose this Card!.choose-card' ]
+						})
+					]
+				}
+
+			default:
+				return {}
+		}
+	}
+
 	getData(options={}) {
 		return {
+			title: '',
+			...this.createData(this.options.type, this.options.data),
 			tabs: this.options.tabs.length,
-			data: this.options.object,
 			cardFront: MMI.cardFront
 		};
 	}
 	
 	activateListeners(html) {
 		super.activateListeners(html);
+
+		const title = html.parent().siblings('header').find('h4')
+		title.text(title.text().replace('Replace', this.getData().title))
 		
 		if(this.options.focusCard === null && this.options.focusUser != null) this._tabs[0].activate(`userHand-${ this.options.focusUser }`, false);
 		html.find('div.hand-wrapper').each((wrKey, wrapper) => {
@@ -26,11 +187,11 @@ export default class CardViewerApplication extends Application {
 			wrapper.find('.card-wrapper:not([id=""])').each(async (key, card) => {
 				card = $(card);
 
-				const source = this.options.sourceId ? MMI.getSource(this.options.sourceId).cards : MMI.activeDeck
-				const cardData = source.find(c => c._id === card.prop('id'))
+				const source = this.options.data.sourceId ? MMI.getSource(this.options.data.sourceId).cards : MMI.activeDeck
+				const cardData = source.find(c => c._id === card.prop('id'));
 				if(card.prop('id')) {
 					if(this.options.focusCard === card.prop('id')) {
-						this._tabs[0].activate(wrapper.data('tab'), false);
+						this?._tabs[0]?.activate(wrapper.data('tab'), false);
 					}
 					if(card.prop('id') === this.options.focusCard || (this.options.focusCard === null && key === 0)) card.show()
 					if(cardData.description) {
@@ -58,7 +219,7 @@ export default class CardViewerApplication extends Application {
 						else if(key === maxKey && direction === 'next') button.addClass('disabled');
 						else {
 							button.removeClass('disabled');
-							button.on('click', () => { this.switchCard({html, cardIds: ids, current: key, direction }) })
+							button.on('click', () => { this.switchCard({html, direction }) })
 						}
 					})
 				}
@@ -72,7 +233,7 @@ export default class CardViewerApplication extends Application {
 				input
 					.on('change', e => {
 						const newCard = $(e.target).val();
-						this.switchCard({html, cardIds: ids, current: key, nextCard: html.find('.card-nav').eq(newCard - 1).prop('id') })
+						this.switchCard({html, nextCardId: html.find('.card-nav').eq(newCard - 1).prop('id') })
 						$(e.target).val(original)
 					})
 			})
@@ -120,12 +281,11 @@ export default class CardViewerApplication extends Application {
 		});
 	}
 	
-	switchCard({html, cardIds, current, direction, nextCard }) {
-		const currentId = cardIds[current];
-		const nextId = nextCard || cardIds[Math.min(Math.max(parseInt(direction === 'prev' ? current - 1 : current + 1), 0), cardIds.length - 1)];
-		
-		html.find('div#' + currentId + '.card-wrapper')[0].style.display = 'none';
-		html.find('div#' + nextId + '.card-wrapper')[0].style.display = '';
+	switchCard({html, direction = 'next', nextCardId = null }) {
+		const current = html.find('div.card-wrapper:not([id=""]):visible');
+		const next = nextCardId != null ? html.find(`div#${ nextCardId }.card-wrapper`) : direction === 'prev' ? current.prev() : current.next();
+		current.hide();
+		next.show();
 	}
 
 	async showCard(cardId, userId) {
@@ -162,7 +322,7 @@ export default class CardViewerApplication extends Application {
 						$('input[name=show-players-select]:checked').each((i, input) => {
 							users.push(input.value);
 						});
-						MMI.socket('showCard', { users, cardId})
+						MMI.socket('showCard', { users, cardId, sourceId: MMI.activeSource._id })
 					}
 				}
 			},

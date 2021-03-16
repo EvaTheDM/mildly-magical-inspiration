@@ -69,18 +69,11 @@ Hooks.once('renderPlayerList', (app, html, data) => {
 	createUI(html);
 });
 
-Hooks.on('mmiSettingChanged', (hookEmitter) => {
-	switch (hookEmitter.change) {
-		case 'awardCard':
-			handleHook.awardCard(hookEmitter);
-			break;
-		
-		case 'useCard':
-			handleHook.useCard(hookEmitter);
-			break;
-		
-		case 'passCard':
-			handleHook.passCard(hookEmitter);
-			break;
-	}
+Hooks.on('changedMMISetting', (hookEmitter) => {
+	if(handleHook.hasOwnProperty(hookEmitter.change)) handleHook[hookEmitter.change](hookEmitter);
+	else console.log(hookEmitter)
 })
+
+// Hooks.on('changedMMISource', (source, change, editor) => {
+// 	console.log('Source Changed')
+// })

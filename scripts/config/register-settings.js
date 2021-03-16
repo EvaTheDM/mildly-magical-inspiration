@@ -79,7 +79,9 @@ export default function () {
 		scope: 'world',
 		config: false,
 		default: {},
-		onChange: value => {}
+		onChange: data => {
+			Hooks.call('changedMMISetting', { change: 'permissionsUpdated', data });
+		}
 	});
 	
 	// Let Players see front when choosing

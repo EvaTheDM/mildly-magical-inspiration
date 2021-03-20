@@ -1,10 +1,6 @@
 import MMI, { SourceFactory } from '/modules/mmi/scripts/main.js';
 import DEFAULTS from '/modules/mmi/scripts/defaults.js';
 
-import CardViewerApplication from '/modules/mmi/scripts/apps/CardViewerApplication.js';
-import DeckConfigApplication from '/modules/mmi/scripts/apps/DeckConfigApplication.js';
-import SourceConfigApplication from '/modules/mmi/scripts/apps/SourceConfigApplication.js';
-
 const _sendNotification = (msg, includeSelf = false) => {
     if(includeSelf) ui.notifications.info(msg)
     game.users.forEach(user => {
@@ -151,6 +147,31 @@ export default {
             }
 
             await SourceFactory.update(MMI.activeSource._id, { cards: newCards })
+        }
+    },
+
+    recall(hookEmitter) {
+        _checkWindows(id => {
+            switch (apps[id].constructor.name) {
+                case 'CardViewerApplication':
+                    apps[id].close();
+                    break;
+                
+                case 'DeckConfigApplication':
+                    apps[id].render(true);
+                    break;
+            }
+        })
+
+        if(game.user.role != 4) {
+            ui.notifications.info('<b>Mildly Magical Inspiration:</b> All cards were recalled back into the deck by the gamemaster!');
+        }
+
+        if(game.user.role === 4) {
+            game.users.forEach(user => {
+                MMI.clearQueue('multipleChoice', user._id);
+            });
+            MMI.socket('triggerHook', hookEmitter);
         }
     }
 }

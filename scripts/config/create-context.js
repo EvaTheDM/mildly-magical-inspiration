@@ -118,7 +118,7 @@ export const makeMenuItems = () => {
 							label: 'Recall Cards',
 							callback: async () => {
 								await MMI.recallCards()
-								ui.notifications.info('Mildly Magical Inspiration: All cards were recalled back into the deck successfully!');
+								ui.notifications.info('<b>Mildly Magical Inspiration:</b> All cards were recalled back into the deck successfully!');
 							}
 						}
 					}

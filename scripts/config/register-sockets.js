@@ -13,7 +13,7 @@ export default function () {
 				if(data.userId === game.user._id) multipleChoice(data.offer);
 				break;
 			case 'setSetting':
-				MMI.pushGamemasterSetting(data.setting, data.data, data.hookEmitter);
+				if(game.user.role === 4) MMI.pushGamemasterSetting(data.setting, data.data, data.hookEmitter);
 				break;
 			case 'sendNotification':
 				if(game.user._id === data.recipient) ui.notifications.info(data.message);

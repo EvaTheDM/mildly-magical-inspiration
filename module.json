@@ -5,7 +5,7 @@
   "author": "EvaTheDM",
   "version": "This is auto replaced",
   "minimumCoreVersion": "0.7.9",
-  "compatibleCoreVersion": "0.7.9",
+  "compatibleCoreVersion": "0.8.6",
   "esmodules": [
   	"mmi.js"
   ],
